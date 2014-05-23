@@ -1,13 +1,13 @@
 package org.tobinet.tick;
 
 public class ItemList {
-	private long ID;
+	private int ID;
 	private String itemlistname;
 	
-	public long getID() {
+	public int getID() {
 		return ID;
 	}
-	public void setID(long ID) {
+	public void setID(int ID) {
 		this.ID = ID;
 	}
 	public void setListName(String itemlistname){

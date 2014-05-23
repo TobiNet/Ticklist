@@ -30,7 +30,7 @@ public class DataSource {
 	private ItemList cursorToItemList(Cursor cursor){
 		ItemList l = new ItemList();
 		
-		l.setID(cursor.getLong(0));
+		l.setID(cursor.getInt(0));
 		l.setListName(cursor.getString(1));
 		
 		return l;
@@ -39,7 +39,7 @@ public class DataSource {
 	private Item cursorToItem(Cursor cursor){
 		Item i = new Item();
 		
-		i.setID(cursor.getLong(0));
+		i.setID(cursor.getInt(0));
 		i.setListID(cursor.getInt(1));
 		i.setItemName(cursor.getString(2));
 		i.setTicks(cursor.getInt(3));
@@ -90,10 +90,10 @@ public class DataSource {
 		return ItemListArray;
 	}
 	
-	protected ArrayList<Item> getAllItems(){
+	protected ArrayList<Item> getAllItems(int ListID){
 		ArrayList<Item> ItemArray = new ArrayList<Item>();
 		
-		Cursor cursor = database.query("ITEMS", itemcolumns, null, null, null, null, null);
+		Cursor cursor = database.query("ITEMS", itemcolumns, "ListID = " + Integer.toString(ListID), null, null, null, null);
 		cursor.moveToFirst();
 		
 		if(cursor.getCount() == 0) return ItemArray;
@@ -105,5 +105,17 @@ public class DataSource {
 		}
 		
 		return ItemArray;
+	}
+
+	public void TickPlus(int ItemID, int ListID){
+		Cursor cursor = database.rawQuery("UPDATE ITEMS SET Ticks=Ticks+1 WHERE ID="+ItemID+" AND ListID="+ListID+";", null);
+		
+		cursor.moveToFirst();
+	}
+	
+	public void TickMinus(int ItemID, int ListID){
+		Cursor cursor = database.rawQuery("UPDATE ITEMS SET Ticks=Ticks-1 WHERE ID="+ItemID+" AND ListID="+ListID+";", null);
+		
+		cursor.moveToFirst();
 	}
 }

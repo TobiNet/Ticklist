@@ -74,7 +74,7 @@ public class ItemListFragment extends Fragment {
 				Intent intent = new Intent(activity, ItemActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("ListName", adapter.getItem(position).getListName());
-				bundle.putLong("ListID", adapter.getItem(position).getID());
+				bundle.putInt("ListID", adapter.getItem(position).getID());
 				intent.putExtras(bundle);
                 startActivity(intent);
 			}

@@ -8,5 +8,9 @@
     <string name="itemlistviewitem">ItemList</string>
     <string name="remove">Remove</string>
     <string name="rename">Rename</string>
+    <string name="ItemName">ItemName</string>
+    <string name="Ticks">Ticks</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
 
 </resources>

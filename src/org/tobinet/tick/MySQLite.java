@@ -19,7 +19,7 @@ public class MySQLite extends SQLiteOpenHelper{
 			+ "ID integer primary key autoincrement, "
 			+ "ListID integer,"
 			+ "ItemName string,"
-			+ "Ticks int"
+			+ "Ticks integer"
 			+ ")";
 	
 	public static MySQLite getInstance(Context context) {
