@@ -1,11 +1,33 @@
 package org.tobinet.tick;
 
-import android.support.v4.app.Fragment;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.MenuItem;
 
-public class ItemFragment extends Fragment {
+public class ItemActivity extends Activity {
 
-	public static ItemFragment newInstance(){
-		return new ItemFragment();
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_item);
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+		
+		Bundle bundle = getIntent().getExtras();
+		
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()){
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	/*

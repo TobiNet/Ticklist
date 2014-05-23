@@ -15,7 +15,7 @@ public class MainActivity extends FragmentActivity {
 	private boolean doubleBackToExitPressedOnce;
 	private ViewPager mViewPager;
 	private MyFragmentPagerAdapter mMFPA;
-	private static final int NUMBER_OF_PAGES = 2;
+	private static final int NUMBER_OF_PAGES = 1;
 	
 	
 	@Override
@@ -64,9 +64,9 @@ public class MainActivity extends FragmentActivity {
 			case 0:
 				f = ItemListFragment.newInstance();
 				break;
-			case 1:
-				f = ItemFragment.newInstance();
-				break;
+			//case 1:
+			//	f = ItemFragment.newInstance();
+			//	break;
 			}
 			return f;
 		}

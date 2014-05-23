@@ -5,18 +5,24 @@ import java.util.Collections;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ItemListFragment extends Fragment {
@@ -25,6 +31,8 @@ public class ItemListFragment extends Fragment {
 	private Activity activity;
 	private ListView listview;
 	private ArrayList<ItemList> itemlist;
+	private ItemListAdapter adapter;
+	private int mIndex;
 	
 	public static ItemListFragment newInstance(){
 		return new ItemListFragment();
@@ -54,25 +62,21 @@ public class ItemListFragment extends Fragment {
 		setHasOptionsMenu(true);
 		
 		listview = (ListView) view.findViewById(R.id.ItemList);
-		//listview.setEmptyView(view.findViewById(R.id.emptyView));
 		itemlist = getAllItemLists();
-		ArrayAdapter<ItemList> adapter = new ArrayAdapter<ItemList>(activity, android.R.layout.simple_list_item_1, itemlist);
+		adapter = new ItemListAdapter(activity, itemlist);
 		listview.setAdapter(adapter);
-		
-		
 		
 		registerForContextMenu(listview);
 		
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id){
-				/*Intent intent = new Intent(getActivity(), DetailActivity.class);
+				Intent intent = new Intent(activity, ItemActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("Carname", adapter.getItem(position).getCarname());
-				bundle.putLong("CarID", list.get(position).getID());
+				bundle.putString("ListName", adapter.getItem(position).getListName());
+				bundle.putLong("ListID", adapter.getItem(position).getID());
 				intent.putExtras(bundle);
-                startActivity(intent);*/
-				
+                startActivity(intent);
 			}
 		});
 		
@@ -90,6 +94,28 @@ public class ItemListFragment extends Fragment {
 		}
 	}
 	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu,  v,  menuInfo);
+		activity.getMenuInflater().inflate(R.menu.itemlistmenu, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item){
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		final int index = (info!=null) ? info.position : this.mIndex;
+		switch(item.getItemId()){
+			case R.id.rename:
+				break;
+			case R.id.remove:
+				break;
+			default:
+				this.mIndex = index;
+		}
+		return true;
+	}
+	
 	public void InsertItemList(String ItemListName){
 		try{
 			data.open();
@@ -100,6 +126,7 @@ public class ItemListFragment extends Fragment {
 			data.close();
 		}
 		Toast.makeText(activity, "Neue Liste angelegt!", Toast.LENGTH_LONG).show();
+		RefreshData();
 	}
 	
 	public void InsertItemList(){
@@ -113,8 +140,12 @@ public class ItemListFragment extends Fragment {
 		
 		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				String value = input.getText().toString();
-				InsertItemList(value);
+				if(!isEmpty(input)){
+					String value = input.getText().toString();
+					InsertItemList(value);
+				}
+				else
+					Toast.makeText(activity, "Bitte Namen eingeben", Toast.LENGTH_LONG).show();
 			}
 		});
 		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
@@ -140,5 +171,46 @@ public class ItemListFragment extends Fragment {
 		Collections.reverse(itemlist);
 		
 		return itemlist;
+	}
+
+	public void RefreshData(){
+		itemlist = getAllItemLists();
+		adapter = new ItemListAdapter(activity, itemlist);
+		listview.setAdapter(adapter);
+	}
+
+	private boolean isEmpty(EditText Text) {
+        return Text.getText().toString().trim().length() == 0;
+	}
+	
+	private class ItemListAdapter extends ArrayAdapter<ItemList>{
+		
+		private Context context;
+		private ArrayList<ItemList> list;
+		
+		public ItemListAdapter(Context context, ArrayList<ItemList> list){
+			super(context, 0, list);
+			this.context = context;
+			this.list = list;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent){
+			if (convertView == null) {
+				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.itemlistviewitem, parent, false);
+			}
+			
+			ItemList il = list.get(position);
+			
+			if (il != null){
+				TextView Name = (TextView) convertView.findViewById(R.id.itemlistviewitemname);
+				Name.setText(il.getListName());
+								
+			}
+			
+			return convertView;
+		}
+		
 	}
 }
