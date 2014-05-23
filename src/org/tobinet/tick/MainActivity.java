@@ -1,55 +1,37 @@
 package org.tobinet.tick;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	private boolean doubleBackToExitPressedOnce;
-	private DataSource data;
+	private ViewPager mViewPager;
+	private MyFragmentPagerAdapter mMFPA;
+	private static final int NUMBER_OF_PAGES = 2;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+		mMFPA = new MyFragmentPagerAdapter(getSupportFragmentManager());
+		mViewPager.setAdapter(mMFPA);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item){
-		switch (item.getItemId()) {
-			case R.id.addItemList:
-				InsertItemList();
-				return true;
-			default:
-	            return super.onOptionsItemSelected(item);
-		}
-	}
-
-	public void InsertItemList(String ItemListName){
-		try{
-			data.open();
-			data.createItemList(ItemListName);
-		} catch (Exception ex)	{
-			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
-		} finally{
-			data.close();
-		}
-		Toast.makeText(this, "Neue Liste angelegt!", Toast.LENGTH_LONG).show();
 	}
 	
 	@Override
@@ -69,29 +51,29 @@ public class MainActivity extends Activity {
 		}, 2000);
 	}
 	
-	public void InsertItemList(){
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 		
-		builder.setTitle("Neue Liste anlegen");
-		final EditText input = new EditText(this);
-		input.setSingleLine();
-		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
-		builder.setView(input);
+		public MyFragmentPagerAdapter (FragmentManager manager){
+			super(manager);
+		}
 		
-		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				String value = input.getText().toString();
-				InsertItemList(value);
+		@Override
+		public Fragment getItem(int index){
+			Fragment f = null;
+			switch (index){
+			case 0:
+				f = ItemListFragment.newInstance();
+				break;
+			case 1:
+				f = ItemFragment.newInstance();
+				break;
 			}
-		});
-		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				return;
-			}
-		});
+			return f;
+		}
 		
-		AlertDialog dialog = builder.create();
-		
-		dialog.show();
+		@Override
+		public int getCount() {
+			return NUMBER_OF_PAGES;
+		}
 	}
 }

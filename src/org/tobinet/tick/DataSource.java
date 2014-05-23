@@ -1,7 +1,7 @@
 package org.tobinet.tick;
 
+
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -73,8 +73,8 @@ public class DataSource {
 		return cursorToItem(cursor);		
 	}
 	
-	protected List<ItemList> getAllItemLists() {
-		List<ItemList> ItemListArray = new ArrayList<ItemList>();
+	protected ArrayList<ItemList> getAllItemLists() {
+		ArrayList<ItemList> ItemListArray = new ArrayList<ItemList>();
 		
 		Cursor cursor = database.query("ITEMLIST", listcolumns, null, null, null, null, null);
 		cursor.moveToFirst();
@@ -90,8 +90,8 @@ public class DataSource {
 		return ItemListArray;
 	}
 	
-	protected List<Item> getAllItems(){
-		List<Item> ItemArray = new ArrayList<Item>();
+	protected ArrayList<Item> getAllItems(){
+		ArrayList<Item> ItemArray = new ArrayList<Item>();
 		
 		Cursor cursor = database.query("ITEMS", itemcolumns, null, null, null, null, null);
 		cursor.moveToFirst();
