@@ -10,17 +10,23 @@ public class MySQLite extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
 	private static MySQLite mInstance = null;
 	
-	private static final String TABLE_CREATE_LIST = "create table ITEMLIST("
+	private static final String TABLE_CREATE_ITEMLIST = "create table ITEMLIST("
 			+ "ID integer primary key autoincrement, "
 			+ "ListName string"
 			+ ")";
 	
-	private static final String TABLE_CREATE_LISTITEMS = "create table ITEMS("
+	private static final String TABLE_CREATE_ITEMS = "create table ITEMS("
 			+ "ID integer primary key autoincrement, "
 			+ "ListID integer,"
 			+ "ItemName string,"
 			+ "Ticks integer"
 			+ ")";
+	
+	
+	private static final String EXAMPLE_VALUES_1 = "insert into ITEMLIST (ID, ListName) values (1, 'TickList');";
+	private static final String EXAMPLE_VALUES_2 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (1, 1, 'Element 1', 42);";
+	private static final String EXAMPLE_VALUES_3 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (2, 1, 'Element 2', 1337);";
+	private static final String EXAMPLE_VALUES_4 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (3, 1, 'Element 3', 13);";
 	
 	public static MySQLite getInstance(Context context) {
 		if (mInstance == null){
@@ -35,9 +41,13 @@ public class MySQLite extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL(TABLE_CREATE_LIST);
-		database.execSQL(TABLE_CREATE_LISTITEMS);
+		database.execSQL(TABLE_CREATE_ITEMLIST);
+		database.execSQL(TABLE_CREATE_ITEMS);
 		
+		database.execSQL(EXAMPLE_VALUES_1);
+		database.execSQL(EXAMPLE_VALUES_2);
+		database.execSQL(EXAMPLE_VALUES_3);
+		database.execSQL(EXAMPLE_VALUES_4);
 	}
 
 	@Override

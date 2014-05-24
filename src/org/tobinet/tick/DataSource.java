@@ -107,6 +107,32 @@ public class DataSource {
 		return ItemArray;
 	}
 
+	protected String[] getAllItemListsAsString() {
+		ArrayList<ItemList> ItemListArray = new ArrayList<ItemList>();
+		
+		Cursor cursor = database.query("ITEMLIST", listcolumns, null, null, null, null, null);
+		cursor.moveToFirst();
+		
+		if(cursor.getCount() == 0) return new String[0];
+		
+		while(cursor.isAfterLast() == false){
+			ItemList il = cursorToItemList(cursor);
+			ItemListArray.add(il);
+			cursor.moveToNext();
+		}
+		
+		String[] itemlist = new String[ItemListArray.size()];
+		
+		int elem = 0;
+		
+		for (ItemList il: ItemListArray){
+			itemlist[elem] = il.getListName();
+			elem++;
+		}
+		
+		return itemlist;
+	}
+	
 	public void TickPlus(int ItemID, int ListID){
 		Cursor cursor = database.rawQuery("UPDATE ITEMS SET Ticks=Ticks+1 WHERE ID="+ItemID+" AND ListID="+ListID+";", null);
 		
@@ -128,11 +154,11 @@ public class DataSource {
 		database.update("ITEMS", values, "ID=" + item.getID(), null);
 	}
 	
-	public void RenameList(ItemList itemlist, String name){
+	public void RenameList(int ListID, String name){
 		ContentValues values = new ContentValues();
 		values.put("ListName", name);
 			
-		database.update("ITEMLIST", values, "ID=" + itemlist.getID(), null);
+		database.update("ITEMLIST", values, "ID=" + ListID, null);
 	}
 	
 	public void RemoveItem(int ID){

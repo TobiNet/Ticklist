@@ -7,7 +7,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,30 +31,47 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ItemActivity extends Activity {
 
+	private boolean doubleBackToExitPressedOnce;
 	private static DataSource data;
 	private ArrayList<Item> list;
-	private String ListName;
-	private int ListID;
+	private ArrayList<ItemList> mItemList;
+	private int ListID = 1;
 	private ListView itemview;
 	private int mIndex;
-	
+
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mTitle = "TickList";
+    private CharSequence mDrawerTitle = "TickList";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_item);
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+		setContentView(R.layout.activity_drawer);
 		
 		data = new DataSource(this);
 		
-		Bundle bundle = getIntent().getExtras();
-		ListName = bundle.getString("ListName");
-		ListID = bundle.getInt("ListID");
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		getActionBar().setTitle(ListName);
-		
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(mTitle);
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(mDrawerTitle);
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
 		itemview = (ListView) this.findViewById(R.id.Items);
 		list = getAllItems(ListID);
 		ItemAdapter adapter = new ItemAdapter(this, list);
@@ -57,7 +79,43 @@ public class ItemActivity extends Activity {
 		
 		registerForContextMenu(itemview);
 
+		mItemList = getAllItemLists();
+		mDrawerList.setAdapter(new ItemListAdapter(this, mItemList));
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		
+		
 	}
+	
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	    @Override
+	    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			list = getAllItems(mItemList.get(position).getID());
+			ListID = mItemList.get(position).getID();
+			ItemAdapter adapter = new ItemAdapter(ItemActivity.this, list);
+			itemview.setAdapter(adapter);
+			mDrawerList.setItemChecked(position, true);
+			setTitle(mItemList.get(position).getListName());
+			mDrawerLayout.closeDrawer(mDrawerList);
+	    }
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+	    getActionBar().setTitle(mTitle);
+	}
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,18 +131,42 @@ public class ItemActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+          return true;
+        }		
 		switch (item.getItemId()){
-			case android.R.id.home:
-				finish();
-				return true;
 			case R.id.addItemList:
 				InsertItem();
+				return true;
+			case R.id.addList:
+				InsertItem();
+				return true;
+			case R.id.renameList:
+				RenameList(ListID);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (doubleBackToExitPressedOnce) {
+				super.onBackPressed();
+	    finish();
+		}
+		this.doubleBackToExitPressedOnce = true;
+		Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+	
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				doubleBackToExitPressedOnce=false;
+			}
+		}, 2000);
+	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item){
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -152,6 +234,49 @@ public class ItemActivity extends Activity {
 		}
 		RefreshData();
 	}
+
+	public void InsertItemList(String ItemListName){
+		try{
+			data.open();
+			data.createItemList(ItemListName);
+		} catch (Exception ex)	{
+			Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
+		} finally{
+			data.close();
+		}
+		Toast.makeText(this, "Neue Liste angelegt!", Toast.LENGTH_LONG).show();
+		RefreshData();
+	}
+	
+	public void InsertItemList(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		builder.setTitle("Neue Liste anlegen");
+		final EditText input = new EditText(this);
+		input.setSingleLine();
+		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		builder.setView(input);
+		
+		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if(!isEmpty(input)){
+					String value = input.getText().toString();
+					InsertItemList(value);
+				}
+				else
+					Toast.makeText(ItemActivity.this, "Bitte Namen eingeben", Toast.LENGTH_LONG).show();
+			}
+		});
+		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		
+		AlertDialog dialog = builder.create();
+		
+		dialog.show();
+	}
 	
 	public ArrayList<Item> getAllItems(int ListID){
 		try{
@@ -167,14 +292,31 @@ public class ItemActivity extends Activity {
 		return list;
 	}
 
+	public ArrayList<ItemList> getAllItemLists(){
+		try{
+			data.open();
+			mItemList = data.getAllItemLists();			
+		} catch (Exception ex) {
+			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+		} finally {
+			data.close();
+		}
+		Collections.reverse(mItemList);
+		
+		return mItemList;
+	}
+	
 	private boolean isEmpty(EditText Text) {
         return Text.getText().toString().trim().length() == 0;
 	}
 	
 	private void RefreshData(){
 		list = getAllItems(ListID);
-		ItemAdapter adapter = new ItemAdapter(this, list);
-		itemview.setAdapter(adapter);
+		itemview.setAdapter(new ItemAdapter(this, list));
+		
+
+		mItemList = getAllItemLists();
+		mDrawerList.setAdapter(new ItemListAdapter(this, mItemList));
 	}
 	
 	private void PlusTick(int ID){
@@ -276,7 +418,82 @@ public class ItemActivity extends Activity {
 		}
 		RefreshData();
 	}
+
+	private void RenameList(final int ListID){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		builder.setTitle("Element bearbeiten");
+		final EditText input = new EditText(this);
+		input.setSingleLine();
+		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		builder.setView(input);
+		
+		builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if(!isEmpty(input)){
+					String value = input.getText().toString();
+					RenameItemList(ListID, value);
+				}
+			}
+		});
+		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		
+		AlertDialog dialog = builder.create();
+		
+		dialog.show();
+
+	}
 	
+	private void RenameItemList(int ListID, String name){
+		try {
+			data.open();
+			data.RenameList(ListID, name);
+			setTitle(name);
+		} catch (Exception ex) {
+			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+		} finally {
+			data.close();
+		}
+		RefreshData();
+	}
+
+	private void RemoveList(int pos){
+		final int index = pos;
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Eintrag entfernen");
+    	builder.setMessage("Sind Sie sicher?");
+    	builder.setPositiveButton("JA", new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			try{
+        		data.open();
+        		data.RemoveItemList(mItemList.get(index).getID());
+            	} catch (Exception ex) {
+            		Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
+            	} finally {
+            		data.close();
+            	}
+            	mItemList.remove(index);
+            	RefreshData();
+                Toast.makeText(ItemActivity.this, "Eintrag entfernt!", Toast.LENGTH_LONG).show();
+    		}
+    	});
+    	builder.setNegativeButton("NEIN", new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			dialog.dismiss();
+    		}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+
+	}
+
 	private class ItemAdapter extends ArrayAdapter<Item>{
 		
 		private Context context;
@@ -303,7 +520,7 @@ public class ItemActivity extends Activity {
 					}
 				});
 				
-				Button minus = (Button) convertView.findViewById(R.id.Minus);
+				Button minus = (Button) convertView.findViewById(R.id.minus);
 				
 				minus.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -321,6 +538,36 @@ public class ItemActivity extends Activity {
 				
 				TextView Ticks = (TextView) convertView.findViewById(R.id.ItemTicks);
 				Ticks.setText(String.valueOf(i.getTicks()));								
+			}
+			
+			return convertView;
+		}
+		
+	}
+
+	private class ItemListAdapter extends ArrayAdapter<ItemList>{
+		
+		private Context context;
+		private ArrayList<ItemList> list;
+		
+		public ItemListAdapter(Context context, ArrayList<ItemList> list){
+			super(context, 0, list);
+			this.context = context;
+			this.list = list;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent){
+			if (convertView == null) {
+				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.itemlistviewitem, parent, false);
+			}
+			
+			ItemList il = list.get(position);
+			
+			if (il != null){
+				TextView Name = (TextView) convertView.findViewById(R.id.itemlistviewitemname);
+				Name.setText(il.getListName());
 			}
 			
 			return convertView;
