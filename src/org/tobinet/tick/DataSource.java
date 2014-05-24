@@ -134,4 +134,14 @@ public class DataSource {
 			
 		database.update("ITEMLIST", values, "ID=" + itemlist.getID(), null);
 	}
+	
+	public void RemoveItem(int ID){
+		database.delete("ITEMS", "ID="+ID, null);
+	}
+
+	public void RemoveItemList(int ID) {
+		database.delete("ITEMLIST", "ID="+ID, null);
+		database.delete("ITEMS", "ListID="+ID, null);
+		
+	}
 }

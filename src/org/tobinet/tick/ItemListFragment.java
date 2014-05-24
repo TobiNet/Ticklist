@@ -110,6 +110,7 @@ public class ItemListFragment extends Fragment {
 				RenameDialog(index);
 				break;
 			case R.id.remove:
+				RemoveDialog(index);
 				break;
 			default:
 				this.mIndex = index;
@@ -225,6 +226,39 @@ public class ItemListFragment extends Fragment {
 			data.close();
 		}
 		RefreshData();
+	}
+	
+	private void RemoveDialog(int pos){
+		final int index = pos;
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    	builder.setTitle("Eintrag entfernen");
+    	builder.setMessage("Sind Sie sicher?");
+    	builder.setPositiveButton("JA", new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			try{
+        		data.open();
+        		data.RemoveItemList(itemlist.get(index).getID());
+            	} catch (Exception ex) {
+            		Toast.makeText(activity.getBaseContext(), ex.toString(), Toast.LENGTH_LONG).show();
+            	} finally {
+            		data.close();
+            	}
+            	itemlist.remove(index);
+            	RefreshData();
+                Toast.makeText(activity, "Eintrag entfernt!", Toast.LENGTH_LONG).show();
+    		}
+    	});
+    	builder.setNegativeButton("NEIN", new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			dialog.dismiss();
+    		}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+
 	}
 	
 	private class ItemListAdapter extends ArrayAdapter<ItemList>{
