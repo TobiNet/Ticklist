@@ -107,6 +107,7 @@ public class ItemListFragment extends Fragment {
 		final int index = (info!=null) ? info.position : this.mIndex;
 		switch(item.getItemId()){
 			case R.id.rename:
+				RenameDialog(index);
 				break;
 			case R.id.remove:
 				break;
@@ -181,6 +182,49 @@ public class ItemListFragment extends Fragment {
 
 	private boolean isEmpty(EditText Text) {
         return Text.getText().toString().trim().length() == 0;
+	}
+	
+	private void RenameDialog(int index){
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		
+		final ItemList il = itemlist.get(index);
+		
+		builder.setTitle("Element bearbeiten");
+		final EditText input = new EditText(activity);
+		input.setSingleLine();
+		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		builder.setView(input);
+		
+		builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if(!isEmpty(input)){
+					String value = input.getText().toString();
+					RenameItemList(il, value);
+				}
+			}
+		});
+		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		
+		AlertDialog dialog = builder.create();
+		
+		dialog.show();
+
+	}
+	
+	private void RenameItemList(ItemList il, String name){
+		try {
+			data.open();
+			data.RenameList(il, name);
+		} catch (Exception ex) {
+			Toast.makeText(activity, ex.toString(), Toast.LENGTH_LONG).show();
+		} finally {
+			data.close();
+		}
+		RefreshData();
 	}
 	
 	private class ItemListAdapter extends ArrayAdapter<ItemList>{

@@ -118,4 +118,20 @@ public class DataSource {
 		
 		cursor.moveToFirst();
 	}
+	
+	public void RenameItem(Item item, String name){
+		ContentValues values = new ContentValues();
+		values.put("ListID", item.getListID());
+		values.put("ItemName", name);
+		values.put("Ticks", item.getTicks());
+		
+		database.update("ITEMS", values, "ID=" + item.getID(), null);
+	}
+	
+	public void RenameList(ItemList itemlist, String name){
+		ContentValues values = new ContentValues();
+		values.put("ListName", name);
+			
+		database.update("ITEMLIST", values, "ID=" + itemlist.getID(), null);
+	}
 }

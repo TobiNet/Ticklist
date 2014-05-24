@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,6 +92,7 @@ public class ItemActivity extends Activity {
 		final int index = (info!=null) ? info.position : this.mIndex;
 		switch(item.getItemId()){
 			case R.id.itemrename:
+				RenameDialog(index);
 				break;
 			case R.id.itemremove:
 				break;
@@ -200,6 +200,49 @@ public class ItemActivity extends Activity {
 		RefreshData();
 	}
 	
+	private void RenameDialog(int index){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		final Item item = list.get(index);
+		
+		builder.setTitle("Element bearbeiten");
+		final EditText input = new EditText(this);
+		input.setSingleLine();
+		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		builder.setView(input);
+		
+		builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if(!isEmpty(input)){
+					String value = input.getText().toString();
+					RenameItem(item, value);
+				}
+			}
+		});
+		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		
+		AlertDialog dialog = builder.create();
+		
+		dialog.show();
+
+	}
+	
+	private void RenameItem(Item item, String name){
+		try {
+			data.open();
+			data.RenameItem(item, name);
+		} catch (Exception ex) {
+			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+		} finally {
+			data.close();
+		}
+		RefreshData();
+	}
+	
 	private class ItemAdapter extends ArrayAdapter<Item>{
 		
 		private Context context;
@@ -223,7 +266,6 @@ public class ItemActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						PlusTick(list.get(position).getID());
-
 					}
 				});
 				

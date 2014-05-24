@@ -2,16 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight" >
-
-    <TextView
-        android:id="@+id/ItemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="@string/ItemName"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:layout_height="?android:attr/listPreferredItemHeight" 
+    android:descendantFocusability="blocksDescendants">
 
     <Button
         android:id="@+id/Plus"
@@ -30,16 +22,27 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/Plus"
         android:text="@string/minus" />
-
+    
     <TextView
         android:id="@+id/ItemTicks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ItemName"
+        android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/Minus"
-        android:layout_centerVertical="true"
         android:text="@string/Ticks"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/ItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:text="@string/ItemName"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 
 </RelativeLayout>
