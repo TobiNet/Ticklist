@@ -140,10 +140,13 @@ public class ItemActivity extends Activity {
 				InsertItem();
 				return true;
 			case R.id.addList:
-				InsertItem();
+				InsertItemList();
 				return true;
 			case R.id.renameList:
 				RenameList(ListID);
+				return true;
+			case R.id.removeList:
+				RemoveList(ListID);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -206,7 +209,9 @@ public class ItemActivity extends Activity {
 		
 		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				if(!isEmpty(input)){
+				if (mItemList.size() == 0)
+					Toast.makeText(ItemActivity.this, "Bitte zuerst eine Liste anlegen", Toast.LENGTH_LONG).show();
+				else if(!isEmpty(input)){
 					String value = input.getText().toString();
 					InsertItem(value);
 				}
@@ -461,8 +466,7 @@ public class ItemActivity extends Activity {
 		RefreshData();
 	}
 
-	private void RemoveList(int pos){
-		final int index = pos;
+	private void RemoveList(final int ListID){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle("Eintrag entfernen");
@@ -472,13 +476,13 @@ public class ItemActivity extends Activity {
     		public void onClick(DialogInterface dialog, int which){
     			try{
         		data.open();
-        		data.RemoveItemList(mItemList.get(index).getID());
+        		data.RemoveItemList(ListID);
             	} catch (Exception ex) {
             		Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
             	} finally {
             		data.close();
             	}
-            	mItemList.remove(index);
+    			setTitle("TickList");
             	RefreshData();
                 Toast.makeText(ItemActivity.this, "Eintrag entfernt!", Toast.LENGTH_LONG).show();
     		}
