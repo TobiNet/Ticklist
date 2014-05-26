@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,20 +36,27 @@ public class ItemActivity extends Activity {
 	private static DataSource data;
 	private ArrayList<Item> list;
 	private ArrayList<ItemList> mItemList;
-	private int ListID = 1;
+	private int ListID;
 	private ListView itemview;
 	private int mIndex;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mTitle = "TickList";
+    private CharSequence mTitle;
     private CharSequence mDrawerTitle = "TickList";
+    
+    private static final String PREFS_NAME = "TickList";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drawer);
+		
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		ListID = settings.getInt("ListID", 1);
+		mTitle = settings.getString("mTitle", "TickList");
+		setTitle(mTitle);
 		
 		data = new DataSource(this);
 		
@@ -83,7 +91,17 @@ public class ItemActivity extends Activity {
 		mDrawerList.setAdapter(new ItemListAdapter(this, mItemList));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		
+	}
+	
+	@Override
+	protected void onStop(){
+		super.onStop();
 		
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt("ListID", ListID);
+		editor.putString("mTitle", mTitle.toString());
+		editor.commit();
 	}
 	
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -190,12 +208,12 @@ public class ItemActivity extends Activity {
 	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
-
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-
+		super.onSaveInstanceState(outState);
 	}
 	
 	public void InsertItem(){
@@ -207,7 +225,7 @@ public class ItemActivity extends Activity {
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(input);
 		
-		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("Anlegen", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if (mItemList.size() == 0)
 					Toast.makeText(ItemActivity.this, "Bitte zuerst eine Liste anlegen", Toast.LENGTH_LONG).show();
@@ -262,7 +280,7 @@ public class ItemActivity extends Activity {
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(input);
 		
-		builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("Anlegen", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if(!isEmpty(input)){
 					String value = input.getText().toString();
@@ -427,7 +445,7 @@ public class ItemActivity extends Activity {
 	private void RenameList(final int ListID){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
-		builder.setTitle("Element bearbeiten");
+		builder.setTitle("Liste bearbeiten");
 		final EditText input = new EditText(this);
 		input.setSingleLine();
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -469,7 +487,7 @@ public class ItemActivity extends Activity {
 	private void RemoveList(final int ListID){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setTitle("Eintrag entfernen");
+    	builder.setTitle("Liste entfernen");
     	builder.setMessage("Sind Sie sicher?");
     	builder.setPositiveButton("JA", new DialogInterface.OnClickListener(){
     		@Override
