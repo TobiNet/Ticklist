@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -166,10 +167,14 @@ public class ItemActivity extends Activity {
 			case R.id.removeList:
 				RemoveList(ListID);
 				return true;
+			case R.id.info:
+				Info();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
+
 
 	@Override
 	public void onBackPressed() {
@@ -215,27 +220,40 @@ public class ItemActivity extends Activity {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
+
+	private void Info() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		builder.setTitle(R.string.app_name);
+		
+		builder.setView(View.inflate(this, R.layout.info, null));
+		builder.setPositiveButton("OK", null);
+
+		Dialog info = builder.create();
+		info.show();
+		
+	}
 	
 	public void InsertItem(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
-		builder.setTitle("Neues Element anlegen");
+		builder.setTitle(R.string.newelement);
 		final EditText input = new EditText(this);
 		input.setSingleLine();
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(input);
 		
-		builder.setPositiveButton("Anlegen", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if (mItemList.size() == 0)
-					Toast.makeText(ItemActivity.this, "Bitte zuerst eine Liste anlegen", Toast.LENGTH_LONG).show();
+					Toast.makeText(ItemActivity.this, R.string.listfirst, Toast.LENGTH_LONG).show();
 				else if(!isEmpty(input)){
 					String value = input.getText().toString();
 					InsertItem(value);
 				}
 			}
 		});
-		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				return;
 			}
@@ -267,30 +285,30 @@ public class ItemActivity extends Activity {
 		} finally{
 			data.close();
 		}
-		Toast.makeText(this, "Neue Liste angelegt!", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.newlistcreated, Toast.LENGTH_LONG).show();
 		RefreshData();
 	}
 	
 	public void InsertItemList(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
-		builder.setTitle("Neue Liste anlegen");
+		builder.setTitle(R.string.newlist);
 		final EditText input = new EditText(this);
 		input.setSingleLine();
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(input);
 		
-		builder.setPositiveButton("Anlegen", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if(!isEmpty(input)){
 					String value = input.getText().toString();
 					InsertItemList(value);
 				}
 				else
-					Toast.makeText(ItemActivity.this, "Bitte Namen eingeben", Toast.LENGTH_LONG).show();
+					Toast.makeText(ItemActivity.this, R.string.entername, Toast.LENGTH_LONG).show();
 			}
 		});
-		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				return;
 			}
@@ -371,13 +389,13 @@ public class ItemActivity extends Activity {
 		
 		final Item item = list.get(index);
 		
-		builder.setTitle("Element bearbeiten");
+		builder.setTitle(R.string.editelement);
 		final EditText input = new EditText(this);
 		input.setSingleLine();
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(input);
 		
-		builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if(!isEmpty(input)){
 					String value = input.getText().toString();
@@ -385,7 +403,7 @@ public class ItemActivity extends Activity {
 				}
 			}
 		});
-		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				return;
 			}
@@ -401,9 +419,9 @@ public class ItemActivity extends Activity {
 		final int index = pos;
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setTitle("Eintrag entfernen");
-    	builder.setMessage("Sind Sie sicher?");
-    	builder.setPositiveButton("JA", new DialogInterface.OnClickListener(){
+    	builder.setTitle(R.string.removeentry);
+    	builder.setMessage(R.string.areyousure);
+    	builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
     		@Override
     		public void onClick(DialogInterface dialog, int which){
     			try{
@@ -416,10 +434,10 @@ public class ItemActivity extends Activity {
             	}
             	list.remove(index);
             	RefreshData();
-                Toast.makeText(ItemActivity.this, "Eintrag entfernt!", Toast.LENGTH_LONG).show();
+                Toast.makeText(ItemActivity.this, R.string.entryremoved, Toast.LENGTH_LONG).show();
     		}
     	});
-    	builder.setNegativeButton("NEIN", new DialogInterface.OnClickListener(){
+    	builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){
     		@Override
     		public void onClick(DialogInterface dialog, int which){
     			dialog.dismiss();
@@ -445,13 +463,13 @@ public class ItemActivity extends Activity {
 	private void RenameList(final int ListID){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
-		builder.setTitle("Liste bearbeiten");
+		builder.setTitle(R.string.editlist);
 		final EditText input = new EditText(this);
 		input.setSingleLine();
 		input.setImeOptions(EditorInfo.IME_ACTION_DONE);
 		builder.setView(input);
 		
-		builder.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				if(!isEmpty(input)){
 					String value = input.getText().toString();
@@ -459,7 +477,7 @@ public class ItemActivity extends Activity {
 				}
 			}
 		});
-		builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				return;
 			}
@@ -487,9 +505,9 @@ public class ItemActivity extends Activity {
 	private void RemoveList(final int ListID){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setTitle("Liste entfernen");
-    	builder.setMessage("Sind Sie sicher?");
-    	builder.setPositiveButton("JA", new DialogInterface.OnClickListener(){
+    	builder.setTitle(R.string.removeList);
+    	builder.setMessage(R.string.areyousure);
+    	builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
     		@Override
     		public void onClick(DialogInterface dialog, int which){
     			try{
@@ -500,12 +518,12 @@ public class ItemActivity extends Activity {
             	} finally {
             		data.close();
             	}
-    			setTitle("TickList");
+    			setTitle(R.string.app_name);
             	RefreshData();
-                Toast.makeText(ItemActivity.this, "Eintrag entfernt!", Toast.LENGTH_LONG).show();
+                Toast.makeText(ItemActivity.this, R.string.entryremoved, Toast.LENGTH_LONG).show();
     		}
     	});
-    	builder.setNegativeButton("NEIN", new DialogInterface.OnClickListener(){
+    	builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){
     		@Override
     		public void onClick(DialogInterface dialog, int which){
     			dialog.dismiss();

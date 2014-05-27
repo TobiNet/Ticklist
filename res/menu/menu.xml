@@ -4,6 +4,7 @@
     <item android:id="@+id/addList" android:title="@string/addList" android:showAsAction="never"></item>
     <item android:id="@+id/renameList" android:title="@string/renameList" android:showAsAction="never"></item>
     <item android:id="@+id/removeList" android:title="@string/removeList" android:showAsAction="never"></item>
+    <item android:id="@+id/info" android:title="@string/info" android:showAsAction="never"></item>
     
     
 </menu>

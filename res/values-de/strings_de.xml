@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">StrichListe</string>
+    <string name="add">Hinzufuegen</string>
+    <string name="addList">Neue Liste</string>
+    <string name="name">Name</string>
+    <string name="itemlistviewitem">ItemList</string>
+    <string name="remove">Element entfernen</string>
+    <string name="removeList">Liste entfernen</string>
+    <string name="rename">Element umbenennen</string>
+    <string name="renameList">Liste umbenennen</string>
+    <string name="ItemName">ItemName</string>
+    <string name="Ticks">Ticks</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="info">Info</string>
+    <string name="about_msg">-- Strichliste -- \n\n\u00A9 2014 created by TobiNet \n\n view the source code at \nhttps://github.com/TobiNet/Ticklist</string>
+    <string name="about_changelog">Release Notes \n v1.1\n- Englische Uebersetzung hinzugefuegt\n- Infobox hinzugefuegt\n\nv1.0\n- PlayStore Release</string>
+    <string name="newelement">Neues Element anlegen</string>
+    <string name="create">Anlegen</string>
+    <string name="listfirst">Bitte zuerst eine Liste anlegen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
+    <string name="newlistcreated">Neue Liste angelegt!</string>
+    <string name="newlist">Neue Liste anlegen</string>
+    <string name="entername">Bitte Namen eingeben!</string>
+    <string name="editelement">Element bearbeiten</string>
+    <string name="removeentry">Eintrag entfernen</string>
+    <string name="entryremoved">"Eintrag entfernt!</string>
+    <string name="editlist">Liste bearbeiten</string>
+    <string name="areyousure">Sind Sie sicher?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+</resources>
