@@ -279,7 +279,9 @@ public class ItemActivity extends Activity {
 	public void InsertItemList(String ItemListName){
 		try{
 			data.open();
-			data.createItemList(ItemListName);
+			ItemList il = data.createItemList(ItemListName);
+			ListID = il.getID();
+			setTitle(il.getListName());
 		} catch (Exception ex)	{
 			Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally{
