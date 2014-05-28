@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MySQLite extends SQLiteOpenHelper{
 	
 	private static final String DATABASE_NAME = "ticklist.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static MySQLite mInstance = null;
 	
 	private static final String TABLE_CREATE_ITEMLIST = "create table ITEMLIST("
@@ -20,6 +20,14 @@ public class MySQLite extends SQLiteOpenHelper{
 			+ "ListID integer,"
 			+ "ItemName string,"
 			+ "Ticks integer"
+			+ ")";
+	
+	private static final String TABLE_CREATE_TICK ="create table TICKS("
+			+ "ID integer primary key autoincrement,"
+			+ "ListID integer,"
+			+ "ItemID integer,"
+			+ "Date string,"
+			+ "Tick integer"
 			+ ")";
 	
 	
@@ -43,6 +51,7 @@ public class MySQLite extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL(TABLE_CREATE_ITEMLIST);
 		database.execSQL(TABLE_CREATE_ITEMS);
+		database.execSQL(TABLE_CREATE_TICK);
 		
 		database.execSQL(EXAMPLE_VALUES_1);
 		database.execSQL(EXAMPLE_VALUES_2);
@@ -51,9 +60,10 @@ public class MySQLite extends SQLiteOpenHelper{
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
-		
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		if((newVersion == 2) && (oldVersion == 1)){
+			db.execSQL(TABLE_CREATE_TICK);
+		}
 	}
 
 }

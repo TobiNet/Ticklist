@@ -175,7 +175,6 @@ public class ItemActivity extends Activity {
 		}
 	}
 
-
 	@Override
 	public void onBackPressed() {
 		if (doubleBackToExitPressedOnce) {

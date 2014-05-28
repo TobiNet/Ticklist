@@ -21,18 +21,19 @@ public final class R {
         public static final int Items=0x7f070001;
         public static final int Plus=0x7f070006;
         public static final int RelativeLayout1=0x7f070004;
-        public static final int addItemList=0x7f07000c;
-        public static final int addList=0x7f07000d;
+        public static final int addItemList=0x7f07000d;
+        public static final int addList=0x7f07000e;
         public static final int drawer_layout=0x7f070000;
-        public static final int info=0x7f070010;
+        public static final int info=0x7f070011;
         public static final int itemlistviewitemname=0x7f070005;
-        public static final int itemremove=0x7f07000b;
-        public static final int itemrename=0x7f07000a;
+        public static final int itemremove=0x7f07000c;
+        public static final int itemrename=0x7f07000b;
         public static final int left_drawer=0x7f070002;
         public static final int minus=0x7f070007;
-        public static final int removeList=0x7f07000f;
-        public static final int renameList=0x7f07000e;
+        public static final int removeList=0x7f070010;
+        public static final int renameList=0x7f07000f;
         public static final int scrollView=0x7f070003;
+        public static final int tpd=0x7f07000a;
     }
     public static final class layout {
         public static final int activity_drawer=0x7f030000;
@@ -46,6 +47,7 @@ public final class R {
     }
     public static final class string {
         public static final int ItemName=0x7f040009;
+        public static final int PerDay=0x7f040021;
         public static final int Ticks=0x7f04000a;
         public static final int about_changelog=0x7f040011;
         public static final int about_msg=0x7f040010;

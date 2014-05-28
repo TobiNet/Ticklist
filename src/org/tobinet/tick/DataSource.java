@@ -1,8 +1,10 @@
 package org.tobinet.tick;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +16,11 @@ public class DataSource {
 	private MySQLite sqlite;
 	private String[] listcolumns = { "ID", "ListName" };
 	private String[] itemcolumns = { "ID", "ListID", "ItemName", "Ticks" };
+	private String[] tickcolumns = { "ID", "ListID", "ItemID", "Date", "Tick"};
+	
+	@SuppressLint("SimpleDateFormat")
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
 	
 	public DataSource (Context context) {
 		sqlite = MySQLite.getInstance(context);
@@ -71,6 +78,19 @@ public class DataSource {
 		cursor.moveToFirst();
 		
 		return cursorToItem(cursor);		
+	}
+	
+	private void createTick(int listid, int itemid, int tick){
+		ContentValues values = new ContentValues();
+		values.put("ListID", listid);
+		values.put("ItemID", itemid);
+		values.put("Date", sdf.format(Calendar.getInstance().getTime()));
+		values.put("Tick", tick);
+		
+		long insertID = database.insert("TICKS", null, values);
+		
+		Cursor cursor = database.query("TICKS", tickcolumns, "ID = " + insertID, null, null, null, null);
+		cursor.moveToFirst();
 	}
 	
 	protected ArrayList<ItemList> getAllItemLists() {
@@ -137,12 +157,16 @@ public class DataSource {
 		Cursor cursor = database.rawQuery("UPDATE ITEMS SET Ticks=Ticks+1 WHERE ID="+ItemID+" AND ListID="+ListID+";", null);
 		
 		cursor.moveToFirst();
+		
+		createTick(ListID, ItemID, +1);
 	}
 	
 	public void TickMinus(int ItemID, int ListID){
 		Cursor cursor = database.rawQuery("UPDATE ITEMS SET Ticks=Ticks-1 WHERE ID="+ItemID+" AND ListID="+ListID+";", null);
 		
 		cursor.moveToFirst();
+		
+		createTick(ListID, ItemID, -1);
 	}
 	
 	public void RenameItem(Item item, String name){
@@ -163,11 +187,12 @@ public class DataSource {
 	
 	public void RemoveItem(int ID){
 		database.delete("ITEMS", "ID="+ID, null);
+		database.delete("TICKS", "ItemID="+ID, null);
 	}
 
 	public void RemoveItemList(int ID) {
 		database.delete("ITEMLIST", "ID="+ID, null);
 		database.delete("ITEMS", "ListID="+ID, null);
-		
+		database.delete("TICKS", "ListID="+ID, null);		
 	}
 }
