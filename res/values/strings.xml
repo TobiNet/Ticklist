@@ -35,5 +35,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="PerDay">TicksPerDay</string>
+    <string name="TicksPerDay">clicks per day:</string>
 
 </resources>

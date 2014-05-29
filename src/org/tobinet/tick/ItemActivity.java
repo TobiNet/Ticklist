@@ -534,6 +534,19 @@ public class ItemActivity extends Activity {
 
 	}
 
+	private double getTicksperDay(int ListID, int ItemID){
+		double hpd = 0;
+		try {
+			data.open();
+			hpd = data.getTicksperDay(ListID, ItemID);
+		} catch (Exception ex) {
+    		Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
+    	} finally {
+    		data.close();
+    	}
+		return hpd;
+	}
+
 	private class ItemAdapter extends ArrayAdapter<Item>{
 		
 		private Context context;
@@ -586,25 +599,12 @@ public class ItemActivity extends Activity {
 				nf.setMinimumFractionDigits(0);
 				nf.setMaximumFractionDigits(2);
 				
-				tpd.setText(nf.format(getHitsperDay(i.getListID(), i.getID())));
+				tpd.setText(nf.format(getTicksperDay(i.getListID(), i.getID())));
 			}
 			
 			return convertView;
 		}
 		
-	}
-
-	private double getHitsperDay(int ListID, int ItemID){
-		double hpd = 0;
-		try {
-			data.open();
-			hpd = data.getHitsperDay(ListID, ItemID);
-		} catch (Exception ex) {
-    		Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
-    	} finally {
-    		data.close();
-    	}
-		return hpd;
 	}
 	
 	private class ItemListAdapter extends ArrayAdapter<ItemList>{

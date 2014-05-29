@@ -156,7 +156,7 @@ public class DataSource {
 		return itemlist;
 	}
 	
-	public double getHitsperDay(int ListID, int ItemID){
+	public double getTicksperDay(int ListID, int ItemID){
 		int days = 1, ticks = 0;
 		Date firstday, now;
 		Cursor cursor = database.query("TICKS", tickcolumns, "ListID = " + ListID + " AND ItemID = " + ItemID, null, null, null, null);
@@ -165,16 +165,17 @@ public class DataSource {
 		if (cursor.getCount() == 0) return 0;
 		try{
 			firstday = sdf.parse(cursor.getString(3));
-			now = sdf.parse(sdf.format(Calendar.getInstance().getTime()));
+			now = Calendar.getInstance().getTime();
 			
 			days = (int) ((long)(now.getTime() - (long)firstday.getTime()) / (1000*60*60*24));
+			if (days == 0) days = 1;
 			
 			while (cursor.isAfterLast() == false){
 				ticks = ticks + cursor.getInt(4);
 				cursor.moveToNext();
 			}
 		} catch (ParseException ex){
-			
+			ticks = days = 1;
 		}
 		
 		return (double) ticks/ (double) days;
