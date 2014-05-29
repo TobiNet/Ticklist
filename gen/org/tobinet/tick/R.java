@@ -21,17 +21,18 @@ public final class R {
         public static final int Items=0x7f070001;
         public static final int Plus=0x7f070006;
         public static final int RelativeLayout1=0x7f070004;
-        public static final int addItemList=0x7f07000c;
-        public static final int addList=0x7f07000d;
+        public static final int addItemList=0x7f07000d;
+        public static final int addList=0x7f07000e;
         public static final int drawer_layout=0x7f070000;
-        public static final int info=0x7f070010;
+        public static final int info=0x7f070011;
         public static final int itemlistviewitemname=0x7f070005;
         public static final int itemremove=0x7f07000b;
         public static final int itemrename=0x7f07000a;
+        public static final int itemreset=0x7f07000c;
         public static final int left_drawer=0x7f070002;
         public static final int minus=0x7f070007;
-        public static final int removeList=0x7f07000f;
-        public static final int renameList=0x7f07000e;
+        public static final int removeList=0x7f070010;
+        public static final int renameList=0x7f07000f;
         public static final int scrollView=0x7f070003;
     }
     public static final class layout {
@@ -76,6 +77,8 @@ public final class R {
         public static final int removeentry=0x7f04001b;
         public static final int rename=0x7f040007;
         public static final int renameList=0x7f040008;
+        public static final int reset=0x7f040021;
+        public static final int resetelement=0x7f040022;
         public static final int save=0x7f040016;
         public static final int yes=0x7f04001f;
     }

@@ -160,6 +160,11 @@ public class DataSource {
 			
 		database.update("ITEMLIST", values, "ID=" + ListID, null);
 	}
+
+	public void ResetItem(int id) {
+		Cursor cursor = database.rawQuery("UPDATE ITEMS SET Ticks = 0 WHERE ID = " + id + ";", null);
+		cursor.moveToFirst();
+	}
 	
 	public void RemoveItem(int ID){
 		database.delete("ITEMS", "ID="+ID, null);

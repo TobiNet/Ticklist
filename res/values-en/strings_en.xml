@@ -33,4 +33,6 @@
     <string name="areyousure">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>  
+    <string name="reset">Reset</string>
+    <string name="resetelement">Reset counter</string>
 </resources>

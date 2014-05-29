@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/itemrename" android:title="@string/rename"></item>
     <item android:id="@+id/itemremove" android:title="@string/remove"></item>
+    <item android:id="@+id/itemreset" android:title="@string/reset"></item>
     
 </menu>

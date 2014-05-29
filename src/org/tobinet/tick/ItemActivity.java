@@ -205,12 +205,15 @@ public class ItemActivity extends Activity {
 			case R.id.itemremove:
 				RemoveDialog(index);
 				break;
+			case R.id.itemreset:
+				ItemresetDialog(index);
+				break;
 			default:
 				this.mIndex = index;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
@@ -523,6 +526,37 @@ public class ItemActivity extends Activity {
     			setTitle(R.string.app_name);
             	RefreshData();
                 Toast.makeText(ItemActivity.this, R.string.entryremoved, Toast.LENGTH_LONG).show();
+    		}
+    	});
+    	builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			dialog.dismiss();
+    		}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+
+	}
+	
+	private void ItemresetDialog(int pos) {
+		final int index = pos;
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle(R.string.resetelement);
+    	builder.setMessage(R.string.areyousure);
+    	builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			try{
+        		data.open();
+        		data.ResetItem(list.get(index).getID());
+            	} catch (Exception ex) {
+            		Toast.makeText(ItemActivity.this.getBaseContext(), ex.toString(), Toast.LENGTH_LONG).show();
+            	} finally {
+            		data.close();
+            	}
+            	RefreshData();
     		}
     	});
     	builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){

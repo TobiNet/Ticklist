@@ -34,4 +34,6 @@
     <string name="areyousure">Sind Sie sicher?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="reset">Zuruecksetzen</string>
+    <string name="resetelement">Zaehler zuruecksetzen</string>
 </resources>
