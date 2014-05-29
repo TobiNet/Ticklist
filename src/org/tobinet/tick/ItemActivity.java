@@ -41,6 +41,7 @@ public class ItemActivity extends Activity {
 	private int ListID;
 	private ListView itemview;
 	private int mIndex;
+	private boolean showtpd;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -58,6 +59,7 @@ public class ItemActivity extends Activity {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		ListID = settings.getInt("ListID", 1);
 		mTitle = settings.getString("mTitle", "TickList");
+		showtpd = settings.getBoolean("isChecked", true);
 		setTitle(mTitle);
 		
 		data = new DataSource(this);
@@ -103,6 +105,7 @@ public class ItemActivity extends Activity {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putInt("ListID", ListID);
 		editor.putString("mTitle", mTitle.toString());
+		editor.putBoolean("isChecked", showtpd);
 		editor.commit();
 	}
 	
@@ -148,7 +151,14 @@ public class ItemActivity extends Activity {
 		super.onCreateContextMenu(menu,  v,  menuInfo);
 		this.getMenuInflater().inflate(R.menu.itemmenu, menu);
 	}
-	
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    MenuItem checkable = menu.findItem(R.id.toggletpd);
+	    checkable.setChecked(showtpd);
+	    return true;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 
@@ -168,6 +178,11 @@ public class ItemActivity extends Activity {
 			case R.id.removeList:
 				RemoveList(ListID);
 				return true;
+			case R.id.toggletpd:
+	            showtpd = !item.isChecked();
+	            RefreshData();
+	            item.setChecked(showtpd);
+				return true;
 			case R.id.info:
 				Info();
 				return true;
@@ -175,6 +190,7 @@ public class ItemActivity extends Activity {
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	
 
 	@Override
 	public void onBackPressed() {
@@ -354,7 +370,6 @@ public class ItemActivity extends Activity {
 	private void RefreshData(){
 		list = getAllItems(ListID);
 		itemview.setAdapter(new ItemAdapter(this, list));
-		
 
 		mItemList = getAllItemLists();
 		mDrawerList.setAdapter(new ItemListAdapter(this, mItemList));
@@ -600,6 +615,15 @@ public class ItemActivity extends Activity {
 				nf.setMaximumFractionDigits(2);
 				
 				tpd.setText(nf.format(getTicksperDay(i.getListID(), i.getID())));
+			}
+			
+
+			if(showtpd){
+				convertView.findViewById(R.id.tickspd).setVisibility(View.VISIBLE);
+				convertView.findViewById(R.id.tpd).setVisibility(View.VISIBLE);
+			} else{
+				convertView.findViewById(R.id.tickspd).setVisibility(View.GONE);
+				convertView.findViewById(R.id.tpd).setVisibility(View.GONE);
 			}
 			
 			return convertView;

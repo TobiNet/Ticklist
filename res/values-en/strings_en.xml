@@ -35,4 +35,5 @@
     <string name="no">No</string>  
     <string name="PerDay">TicksPerDay</string>
     <string name="TicksPerDay">clicks per day:</string>
+    <string name="showtpd">show clicks per day</string>
 </resources>

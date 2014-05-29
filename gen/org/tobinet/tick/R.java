@@ -24,7 +24,7 @@ public final class R {
         public static final int addItemList=0x7f07000e;
         public static final int addList=0x7f07000f;
         public static final int drawer_layout=0x7f070000;
-        public static final int info=0x7f070012;
+        public static final int info=0x7f070013;
         public static final int itemlistviewitemname=0x7f070005;
         public static final int itemremove=0x7f07000d;
         public static final int itemrename=0x7f07000c;
@@ -34,6 +34,7 @@ public final class R {
         public static final int renameList=0x7f070010;
         public static final int scrollView=0x7f070003;
         public static final int tickspd=0x7f07000a;
+        public static final int toggletpd=0x7f070012;
         public static final int tpd=0x7f07000b;
     }
     public static final class layout {
@@ -81,6 +82,7 @@ public final class R {
         public static final int rename=0x7f040007;
         public static final int renameList=0x7f040008;
         public static final int save=0x7f040016;
+        public static final int showtpd=0x7f040023;
         public static final int yes=0x7f04001f;
     }
     public static final class style {
