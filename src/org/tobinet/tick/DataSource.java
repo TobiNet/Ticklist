@@ -1,9 +1,12 @@
 package org.tobinet.tick;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -151,6 +154,30 @@ public class DataSource {
 		}
 		
 		return itemlist;
+	}
+	
+	public double getHitsperDay(int ListID, int ItemID){
+		int days = 1, ticks = 0;
+		Date firstday, now;
+		Cursor cursor = database.query("TICKS", tickcolumns, "ListID = " + ListID + " AND ItemID = " + ItemID, null, null, null, null);
+		cursor.moveToFirst();
+		
+		if (cursor.getCount() == 0) return 0;
+		try{
+			firstday = sdf.parse(cursor.getString(3));
+			now = sdf.parse(sdf.format(Calendar.getInstance().getTime()));
+			
+			days = (int) ((long)(now.getTime() - (long)firstday.getTime()) / (1000*60*60*24));
+			
+			while (cursor.isAfterLast() == false){
+				ticks = ticks + cursor.getInt(4);
+				cursor.moveToNext();
+			}
+		} catch (ParseException ex){
+			
+		}
+		
+		return (double) ticks/ (double) days;
 	}
 	
 	public void TickPlus(int ItemID, int ListID){

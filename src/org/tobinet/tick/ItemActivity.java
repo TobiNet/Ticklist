@@ -1,5 +1,6 @@
 package org.tobinet.tick;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -576,7 +577,16 @@ public class ItemActivity extends Activity {
 				Name.setText(i.getItemName());
 				
 				TextView Ticks = (TextView) convertView.findViewById(R.id.ItemTicks);
-				Ticks.setText(String.valueOf(i.getTicks()));								
+				Ticks.setText(String.valueOf(i.getTicks()));
+				
+				TextView tpd = (TextView) convertView.findViewById(R.id.tpd);
+				
+
+				NumberFormat nf = NumberFormat.getNumberInstance();
+				nf.setMinimumFractionDigits(0);
+				nf.setMaximumFractionDigits(2);
+				
+				tpd.setText(nf.format(getHitsperDay(i.getListID(), i.getID())));
 			}
 			
 			return convertView;
@@ -584,6 +594,19 @@ public class ItemActivity extends Activity {
 		
 	}
 
+	private double getHitsperDay(int ListID, int ItemID){
+		double hpd = 0;
+		try {
+			data.open();
+			hpd = data.getHitsperDay(ListID, ItemID);
+		} catch (Exception ex) {
+    		Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
+    	} finally {
+    		data.close();
+    	}
+		return hpd;
+	}
+	
 	private class ItemListAdapter extends ArrayAdapter<ItemList>{
 		
 		private Context context;
