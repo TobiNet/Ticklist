@@ -35,6 +35,6 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="PerDay">TicksPerDay</string>
-    <string name="TicksPerDay">klicks pro Tag:</string>
+    <string name="TicksPerDay">Klicks pro Tag:</string>
     <string name="showtpd">Klicks pro Tag anzeigen</string>
 </resources>

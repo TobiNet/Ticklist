@@ -577,7 +577,11 @@ public class ItemActivity extends Activity {
 		public View getView(final int position, View convertView, ViewGroup parent){
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = inflater.inflate(R.layout.items, parent, false);
+				if (showtpd){
+					convertView = inflater.inflate(R.layout.items, parent, false);
+				} else {
+					convertView = inflater.inflate(R.layout.item, parent, false);
+				}
 				
 				Button plus = (Button) convertView.findViewById(R.id.Plus);
 				
@@ -606,24 +610,16 @@ public class ItemActivity extends Activity {
 				
 				TextView Ticks = (TextView) convertView.findViewById(R.id.ItemTicks);
 				Ticks.setText(String.valueOf(i.getTicks()));
-				
-				TextView tpd = (TextView) convertView.findViewById(R.id.tpd);
-				
 
-				NumberFormat nf = NumberFormat.getNumberInstance();
-				nf.setMinimumFractionDigits(0);
-				nf.setMaximumFractionDigits(2);
-				
-				tpd.setText(nf.format(getTicksperDay(i.getListID(), i.getID())));
-			}
-			
-
-			if(showtpd){
-				convertView.findViewById(R.id.tickspd).setVisibility(View.VISIBLE);
-				convertView.findViewById(R.id.tpd).setVisibility(View.VISIBLE);
-			} else{
-				convertView.findViewById(R.id.tickspd).setVisibility(View.GONE);
-				convertView.findViewById(R.id.tpd).setVisibility(View.GONE);
+				if(showtpd){
+					TextView tpd = (TextView) convertView.findViewById(R.id.tpd);
+					
+					NumberFormat nf = NumberFormat.getNumberInstance();
+					nf.setMinimumFractionDigits(0);
+					nf.setMaximumFractionDigits(2);
+					
+					tpd.setText(nf.format(getTicksperDay(i.getListID(), i.getID())));
+				}
 			}
 			
 			return convertView;
