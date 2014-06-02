@@ -38,27 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center_horizontal"
         android:text="@string/ItemName"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/tickspd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ItemName"
-        android:layout_below="@+id/ItemName"
-        android:text="@string/TicksPerDay" />
-
-    <TextView
-        android:id="@+id/tpd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ItemName"
-        android:layout_toRightOf="@+id/tickspd"
-        android:text="@string/PerDay" />
 
 </RelativeLayout>
