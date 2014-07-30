@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TickList</string>
+    <string name="backagain">Please click BACK again to exit</string>
     <string name="add">Add</string>
     <string name="addList">New list</string>
     <string name="name">Name</string>
@@ -33,7 +34,7 @@
     <string name="areyousure">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>  
-    <string name="reset">Reset</string>
+    <string name="reset">Reset element</string>
     <string name="resetelement">Reset counter</string>
     <string name="PerDay">TicksPerDay</string>
     <string name="TicksPerDay">clicks per day:</string>

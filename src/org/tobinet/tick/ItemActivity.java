@@ -191,7 +191,6 @@ public class ItemActivity extends Activity {
 		}
 	}
 	
-
 	@Override
 	public void onBackPressed() {
 		if (doubleBackToExitPressedOnce) {
@@ -199,7 +198,7 @@ public class ItemActivity extends Activity {
 	    finish();
 		}
 		this.doubleBackToExitPressedOnce = true;
-		Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, R.string.backagain, Toast.LENGTH_SHORT).show();
 	
 		new Handler().postDelayed(new Runnable() {
 			@Override
