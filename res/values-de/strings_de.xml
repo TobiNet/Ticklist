@@ -19,7 +19,7 @@
     <string name="drawer_close">Close</string>
     <string name="info">Info</string>
     <string name="about_msg">-- Strichliste -- \n\n\u00A9 2014 created by TobiNet \n\n view the source code at \nhttps://github.com/TobiNet/Ticklist</string>
-   <string name="about_changelog">Release Notes \n v1.2\n - Klicks pro Tag als Option hinzugefügt\n - Klicks zurücksetzen hinzugefügt \n v1.1.1\n - Bugfix, nach erstellen neuer Liste wird diese direkt aufgerufen\nv1.1\n- Englische Übersetzung hinzugefügt\n- Infobox hinzugefügt\n\nv1.0\n- PlayStore Release</string>
+   <string name="about_changelog">Release Notes \n v1.2.1\n - Bugfix für lange Listen\n - kleinere Übersetzungsfehler behoben \n v1.2\n - Klicks pro Tag als Option hinzugefügt\n - Klicks zurücksetzen hinzugefügt \n v1.1.1\n - Bugfix, nach erstellen neuer Liste wird diese direkt aufgerufen\nv1.1\n- Englische Übersetzung hinzugefügt\n- Infobox hinzugefügt\nv1.0\n- PlayStore Release</string>
     <string name="newelement">Neues Element anlegen</string>
     <string name="create">Anlegen</string>
     <string name="listfirst">Bitte zuerst eine Liste anlegen</string>
@@ -40,4 +40,5 @@
     <string name="PerDay">TicksPerDay</string>
     <string name="TicksPerDay">Klicks pro Tag:</string>
     <string name="showtpd">Klicks pro Tag anzeigen</string>
+    <string name="emptytext">Keine Liste gewählt, bitte eine auswählen oder anlegen!</string>
 </resources>

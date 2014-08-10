@@ -67,6 +67,7 @@ public final class R {
         public static final int drawer_open=0x7f04000e;
         public static final int editelement=0x7f04001b;
         public static final int editlist=0x7f04001e;
+        public static final int emptytext=0x7f040027;
         public static final int entername=0x7f04001a;
         public static final int entryremoved=0x7f04001d;
         public static final int info=0x7f040010;

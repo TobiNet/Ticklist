@@ -64,9 +64,9 @@ public class ItemActivity extends Activity {
 		
 		data = new DataSource(this);
 		
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
+        
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
@@ -617,25 +617,26 @@ public class ItemActivity extends Activity {
 				} else {
 					convertView = inflater.inflate(R.layout.item, parent, false);
 				}
-				
-				Button plus = (Button) convertView.findViewById(R.id.Plus);
-				
-				plus.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						PlusTick(list.get(position).getID());
-					}
-				});
-				
-				Button minus = (Button) convertView.findViewById(R.id.minus);
-				
-				minus.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						MinusTick(list.get(position).getID());
-					}
-				});
 			}
+			
+			Button plus = (Button) convertView.findViewById(R.id.Plus);
+			
+			plus.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					PlusTick(list.get(position).getID());
+				}
+			});
+			
+			Button minus = (Button) convertView.findViewById(R.id.minus);
+			
+			minus.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					MinusTick(list.get(position).getID());
+				}
+			});
+			
 			
 			Item i = list.get(position);
 			
