@@ -5,29 +5,36 @@ public class Item {
 	private int ItemListID;
 	private String itemname;
 	private int ticks;
-	
+
 	public int getID() {
-		return ID;
-	}	
-	public void setID(int ID) {
+		return this.ID;
+	}
+
+	public void setID(final int ID) {
 		this.ID = ID;
 	}
+
 	public int getListID() {
-		return ItemListID;
-	}	
-	public void setListID(int ItemListID) {
+		return this.ItemListID;
+	}
+
+	public void setListID(final int ItemListID) {
 		this.ItemListID = ItemListID;
-	}	
-	public void setItemName(String itemname){
+	}
+
+	public void setItemName(final String itemname) {
 		this.itemname = itemname;
 	}
-	public String getItemName(){
-		return itemname;
+
+	public String getItemName() {
+		return this.itemname;
 	}
-	public void setTicks(int ticks){
+
+	public void setTicks(final int ticks) {
 		this.ticks = ticks;
 	}
-	public int getTicks(){
-		return ticks;
+
+	public int getTicks() {
+		return this.ticks;
 	}
 }

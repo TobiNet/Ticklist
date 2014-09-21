@@ -7,41 +7,45 @@ public class Tick {
 	private int ItemID;
 	private String date;
 	private int tick;
-	
-	public void setID (int ID){
+
+	public void setID(final int ID) {
 		this.ID = ID;
 	}
-	public int getID (){
-		return ID;
+
+	public int getID() {
+		return this.ID;
 	}
 
-	public void setListID (int ListID){
+	public void setListID(final int ListID) {
 		this.ListID = ListID;
 	}
-	public int getListID (){
-		return ListID;
+
+	public int getListID() {
+		return this.ListID;
 	}
 
-	public void setItemID (int ItemID){
+	public void setItemID(final int ItemID) {
 		this.ItemID = ItemID;
 	}
-	public int getItemID (){
-		return ItemID;
+
+	public int getItemID() {
+		return this.ItemID;
 	}
 
-	public void setDate (String date){
+	public void setDate(final String date) {
 		this.date = date;
 	}
-	public String getDate (){
-		return date;
+
+	public String getDate() {
+		return this.date;
 	}
-	
-	public void setTick (int tick){
+
+	public void setTick(final int tick) {
 		this.tick = tick;
 	}
-	public int getTick (){
-		return tick;
+
+	public int getTick() {
+		return this.tick;
 	}
-	
-	
+
 }
