@@ -2,34 +2,34 @@ package org.tobinet.tick;
 
 public class Tick {
 
-	private int ID;
-	private int ListID;
-	private int ItemID;
+	private int iD;
+	private int listID;
+	private int itemID;
 	private String date;
 	private int tick;
 
 	public void setID(final int ID) {
-		this.ID = ID;
+		this.iD = ID;
 	}
 
 	public int getID() {
-		return this.ID;
+		return this.iD;
 	}
 
 	public void setListID(final int ListID) {
-		this.ListID = ListID;
+		this.listID = ListID;
 	}
 
 	public int getListID() {
-		return this.ListID;
+		return this.listID;
 	}
 
 	public void setItemID(final int ItemID) {
-		this.ItemID = ItemID;
+		this.itemID = ItemID;
 	}
 
 	public int getItemID() {
-		return this.ItemID;
+		return this.itemID;
 	}
 
 	public void setDate(final String date) {

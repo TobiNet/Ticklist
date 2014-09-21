@@ -1,26 +1,26 @@
 package org.tobinet.tick;
 
 public class Item {
-	private int ID;
-	private int ItemListID;
+	private int iD;
+	private int itemListID;
 	private String itemname;
 	private int ticks;
 	private int color;
 
 	public int getID() {
-		return this.ID;
+		return this.iD;
 	}
 
 	public void setID(final int ID) {
-		this.ID = ID;
+		this.iD = ID;
 	}
 
 	public int getListID() {
-		return this.ItemListID;
+		return this.itemListID;
 	}
 
 	public void setListID(final int ItemListID) {
-		this.ItemListID = ItemListID;
+		this.itemListID = ItemListID;
 	}
 
 	public void setItemName(final String itemname) {

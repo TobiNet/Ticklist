@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -17,11 +18,15 @@ public class DataSource {
 
 	private SQLiteDatabase database;
 	private final MySQLite sqlite;
-	private final String[] listcolumns = { "ID", "ListName" };
-	private final String[] itemcolumns = { "ID", "ListID", "ItemName", "Ticks",
-			"Color" };
-	private final String[] tickcolumns = { "ID", "ListID", "ItemID", "Date",
-			"Tick" };
+	private static final String[] listcolumns = { "ID", "ListName" };
+	private static final String[] itemcolumns = { "ID", "ListID", "ItemName",
+			"Ticks", "Color" };
+	private static final String[] tickcolumns = { "ID", "ListID", "ItemID",
+			"Date", "Tick" };
+
+	private static final String ITEMLIST = "ITEMLIST";
+	private static final String ITEMS = "ITEMS";
+	private static final String TICKS = "TICKS";
 
 	@SuppressLint("SimpleDateFormat")
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -63,9 +68,9 @@ public class DataSource {
 		final ContentValues values = new ContentValues();
 		values.put("Listname", listname);
 
-		final long insertID = this.database.insert("ITEMLIST", null, values);
+		final long insertID = this.database.insert(ITEMLIST, null, values);
 
-		final Cursor cursor = this.database.query("ITEMLIST", this.listcolumns,
+		final Cursor cursor = this.database.query(ITEMLIST, listcolumns,
 				"ID = " + insertID, null, null, null, null);
 		cursor.moveToFirst();
 
@@ -80,10 +85,10 @@ public class DataSource {
 		values.put("Ticks", ticks);
 		values.put("Color", color);
 
-		final long insertID = this.database.insert("ITEMS", null, values);
+		final long insertID = this.database.insert(ITEMS, null, values);
 
-		final Cursor cursor = this.database.query("ITEMS", this.itemcolumns,
-				"ID = " + insertID, null, null, null, null);
+		final Cursor cursor = this.database.query(ITEMS, itemcolumns, "ID = "
+				+ insertID, null, null, null, null);
 		cursor.moveToFirst();
 
 		return this.cursorToItem(cursor);
@@ -96,25 +101,25 @@ public class DataSource {
 		values.put("Date", this.sdf.format(Calendar.getInstance().getTime()));
 		values.put("Tick", tick);
 
-		final long insertID = this.database.insert("TICKS", null, values);
+		final long insertID = this.database.insert(TICKS, null, values);
 
-		final Cursor cursor = this.database.query("TICKS", this.tickcolumns,
-				"ID = " + insertID, null, null, null, null);
+		final Cursor cursor = this.database.query(TICKS, tickcolumns, "ID = "
+				+ insertID, null, null, null, null);
 		cursor.moveToFirst();
 	}
 
-	protected ArrayList<ItemList> getAllItemLists() {
-		final ArrayList<ItemList> ItemListArray = new ArrayList<ItemList>();
+	protected List<ItemList> getAllItemLists() {
+		final List<ItemList> ItemListArray = new ArrayList<ItemList>();
 
-		final Cursor cursor = this.database.query("ITEMLIST", this.listcolumns,
-				null, null, null, null, null);
+		final Cursor cursor = this.database.query(ITEMLIST, listcolumns, null,
+				null, null, null, null);
 		cursor.moveToFirst();
 
 		if (cursor.getCount() == 0) {
 			return ItemListArray;
 		}
 
-		while (cursor.isAfterLast() == false) {
+		while (!cursor.isAfterLast()) {
 			final ItemList il = this.cursorToItemList(cursor);
 			ItemListArray.add(il);
 			cursor.moveToNext();
@@ -123,10 +128,10 @@ public class DataSource {
 		return ItemListArray;
 	}
 
-	protected ArrayList<Item> getAllItems(final int ListID) {
-		final ArrayList<Item> ItemArray = new ArrayList<Item>();
+	protected List<Item> getAllItems(final int ListID) {
+		final List<Item> ItemArray = new ArrayList<Item>();
 
-		final Cursor cursor = this.database.query("ITEMS", this.itemcolumns,
+		final Cursor cursor = this.database.query(ITEMS, itemcolumns,
 				"ListID = " + Integer.toString(ListID), null, null, null, null);
 		cursor.moveToFirst();
 
@@ -134,7 +139,7 @@ public class DataSource {
 			return ItemArray;
 		}
 
-		while (cursor.isAfterLast() == false) {
+		while (!cursor.isAfterLast()) {
 			final Item i = this.cursorToItem(cursor);
 			ItemArray.add(i);
 			cursor.moveToNext();
@@ -144,17 +149,17 @@ public class DataSource {
 	}
 
 	protected String[] getAllItemListsAsString() {
-		final ArrayList<ItemList> ItemListArray = new ArrayList<ItemList>();
+		final List<ItemList> ItemListArray = new ArrayList<ItemList>();
 
-		final Cursor cursor = this.database.query("ITEMLIST", this.listcolumns,
-				null, null, null, null, null);
+		final Cursor cursor = this.database.query(ITEMLIST, listcolumns, null,
+				null, null, null, null);
 		cursor.moveToFirst();
 
 		if (cursor.getCount() == 0) {
 			return new String[0];
 		}
 
-		while (cursor.isAfterLast() == false) {
+		while (!cursor.isAfterLast()) {
 			final ItemList il = this.cursorToItemList(cursor);
 			ItemListArray.add(il);
 			cursor.moveToNext();
@@ -172,11 +177,11 @@ public class DataSource {
 		return itemlist;
 	}
 
-	public double getTicksperDay(final int ListID, final int ItemID) {
+	public double getTicksperDay(final int listID, final int itemID) {
 		int days = 1, ticks = 0;
 		Date firstday, now;
-		final Cursor cursor = this.database.query("TICKS", this.tickcolumns,
-				"ListID = " + ListID + " AND ItemID = " + ItemID, null, null,
+		final Cursor cursor = this.database.query(TICKS, tickcolumns,
+				"ListID = " + listID + " AND ItemID = " + itemID, null, null,
 				null, null);
 		cursor.moveToFirst();
 
@@ -203,24 +208,24 @@ public class DataSource {
 		return (double) ticks / (double) days;
 	}
 
-	public void TickPlus(final int ItemID, final int ListID) {
+	public void tickPlus(final int itemID, final int listID) {
 		final Cursor cursor = this.database.rawQuery(
-				"UPDATE ITEMS SET Ticks=Ticks+1 WHERE ID=" + ItemID
-						+ " AND ListID=" + ListID + ";", null);
+				"UPDATE ITEMS SET Ticks=Ticks+1 WHERE ID=" + itemID
+						+ " AND ListID=" + listID + ";", null);
 
 		cursor.moveToFirst();
 
-		this.createTick(ListID, ItemID, +1);
+		this.createTick(listID, itemID, +1);
 	}
 
-	public void TickMinus(final int ItemID, final int ListID) {
+	public void tickMinus(final int itemID, final int listID) {
 		final Cursor cursor = this.database.rawQuery(
-				"UPDATE ITEMS SET Ticks=Ticks-1 WHERE ID=" + ItemID
-						+ " AND ListID=" + ListID + ";", null);
+				"UPDATE ITEMS SET Ticks=Ticks-1 WHERE ID=" + itemID
+						+ " AND ListID=" + listID + ";", null);
 
 		cursor.moveToFirst();
 
-		this.createTick(ListID, ItemID, -1);
+		this.createTick(listID, itemID, -1);
 	}
 
 	public void setColor(final Item item, final int color) {
@@ -231,41 +236,41 @@ public class DataSource {
 		values.put("Ticks", item.getTicks());
 		values.put("Color", color);
 
-		this.database.update("ITEMS", values, "ID=" + item.getID(), null);
+		this.database.update(ITEMS, values, "ID=" + item.getID(), null);
 	}
 
-	public void RenameItem(final Item item, final String name) {
+	public void renameItem(final Item item, final String name) {
 		final ContentValues values = new ContentValues();
 		values.put("ListID", item.getListID());
 		values.put("ItemName", name);
 		values.put("Ticks", item.getTicks());
 		values.put("Color", item.getColor());
 
-		this.database.update("ITEMS", values, "ID=" + item.getID(), null);
+		this.database.update(ITEMS, values, "ID=" + item.getID(), null);
 	}
 
-	public void RenameList(final int ListID, final String name) {
+	public void renameList(final int ListID, final String name) {
 		final ContentValues values = new ContentValues();
 		values.put("ListName", name);
 
-		this.database.update("ITEMLIST", values, "ID=" + ListID, null);
+		this.database.update(ITEMLIST, values, "ID=" + ListID, null);
 	}
 
-	public void ResetItem(final int id) {
+	public void resetItem(final int id) {
 		final Cursor cursor = this.database.rawQuery(
 				"UPDATE ITEMS SET Ticks = 0 WHERE ID = " + id + ";", null);
 		cursor.moveToFirst();
-		this.database.delete("TICKS", "ItemID=" + id, null);
+		this.database.delete(TICKS, "ItemID=" + id, null);
 	}
 
-	public void RemoveItem(final int ID) {
-		this.database.delete("ITEMS", "ID=" + ID, null);
-		this.database.delete("TICKS", "ItemID=" + ID, null);
+	public void removeItem(final int ID) {
+		this.database.delete(ITEMS, "ID=" + ID, null);
+		this.database.delete(TICKS, "ItemID=" + ID, null);
 	}
 
-	public void RemoveItemList(final int ID) {
-		this.database.delete("ITEMLIST", "ID=" + ID, null);
-		this.database.delete("ITEMS", "ListID=" + ID, null);
-		this.database.delete("TICKS", "ListID=" + ID, null);
+	public void removeItemList(final int ID) {
+		this.database.delete(ITEMLIST, "ID=" + ID, null);
+		this.database.delete(ITEMS, "ListID=" + ID, null);
+		this.database.delete(TICKS, "ListID=" + ID, null);
 	}
 }

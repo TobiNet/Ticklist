@@ -38,15 +38,15 @@ public class MySQLite extends SQLiteOpenHelper {
 	private static final String EXAMPLE_VALUES_3 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (2, 1, 'Element 2', 1337, 2);";
 	private static final String EXAMPLE_VALUES_4 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (3, 1, 'Element 3', 13, 3);";
 
+	private MySQLite(final Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+
 	public static MySQLite getInstance(final Context context) {
 		if (mInstance == null) {
 			mInstance = new MySQLite(context.getApplicationContext());
 		}
 		return mInstance;
-	}
-
-	private MySQLite(final Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	@Override

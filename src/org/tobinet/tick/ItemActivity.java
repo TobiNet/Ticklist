@@ -1,8 +1,8 @@
 package org.tobinet.tick;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -37,9 +38,9 @@ public class ItemActivity extends Activity {
 
 	private boolean doubleBackToExitPressedOnce;
 	private static DataSource data;
-	private ArrayList<Item> list;
-	private ArrayList<ItemList> mItemList;
-	private int ListID;
+	private List<Item> list;
+	private List<ItemList> mItemList;
+	private int listID;
 	private ListView itemview;
 	private int mIndex;
 	private boolean showtpd;
@@ -48,8 +49,8 @@ public class ItemActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mTitle;
-	private final CharSequence mDrawerTitle = "TickList";
-
+	private static final CharSequence mDrawerTitle = "TickList";
+	private static final String TAG = "ItemActivity";
 	private static final String PREFS_NAME = "TickList";
 
 	@Override
@@ -59,7 +60,7 @@ public class ItemActivity extends Activity {
 
 		final SharedPreferences settings = this.getSharedPreferences(
 				PREFS_NAME, 0);
-		this.ListID = settings.getInt("ListID", 1);
+		this.listID = settings.getInt("ListID", 1);
 		this.mTitle = settings.getString("mTitle", "TickList");
 		this.showtpd = settings.getBoolean("isChecked", true);
 		this.setTitle(this.mTitle);
@@ -84,8 +85,7 @@ public class ItemActivity extends Activity {
 			@Override
 			public void onDrawerOpened(final View drawerView) {
 				super.onDrawerOpened(drawerView);
-				ItemActivity.this.getActionBar().setTitle(
-						ItemActivity.this.mDrawerTitle);
+				ItemActivity.this.getActionBar().setTitle(mDrawerTitle);
 			}
 		};
 
@@ -94,7 +94,7 @@ public class ItemActivity extends Activity {
 		this.getActionBar().setHomeButtonEnabled(true);
 
 		this.itemview = (ListView) this.findViewById(R.id.Items);
-		this.list = this.getAllItems(this.ListID);
+		this.list = this.getAllItems(this.listID);
 		final ItemAdapter adapter = new ItemAdapter(this, this.list);
 		this.itemview.setAdapter(adapter);
 
@@ -113,7 +113,7 @@ public class ItemActivity extends Activity {
 		final SharedPreferences settings = this.getSharedPreferences(
 				PREFS_NAME, 0);
 		final SharedPreferences.Editor editor = settings.edit();
-		editor.putInt("ListID", this.ListID);
+		editor.putInt("ListID", this.listID);
 		editor.putString("mTitle", this.mTitle.toString());
 		editor.putBoolean("isChecked", this.showtpd);
 		editor.commit();
@@ -127,7 +127,7 @@ public class ItemActivity extends Activity {
 			ItemActivity.this.list = ItemActivity.this
 					.getAllItems(ItemActivity.this.mItemList.get(position)
 							.getID());
-			ItemActivity.this.ListID = ItemActivity.this.mItemList
+			ItemActivity.this.listID = ItemActivity.this.mItemList
 					.get(position).getID();
 			final ItemAdapter adapter = new ItemAdapter(ItemActivity.this,
 					ItemActivity.this.list);
@@ -186,24 +186,24 @@ public class ItemActivity extends Activity {
 		}
 		switch (item.getItemId()) {
 		case R.id.addItemList:
-			this.InsertItem();
+			this.insertItem();
 			return true;
 		case R.id.addList:
-			this.InsertItemList();
+			this.insertItemList();
 			return true;
 		case R.id.renameList:
-			this.RenameList(this.ListID);
+			this.renameList(this.listID);
 			return true;
 		case R.id.removeList:
-			this.RemoveList(this.ListID);
+			this.removeList(this.listID);
 			return true;
 		case R.id.toggletpd:
 			this.showtpd = !item.isChecked();
-			this.RefreshData();
+			this.refreshData();
 			item.setChecked(this.showtpd);
 			return true;
 		case R.id.info:
-			this.Info();
+			this.info();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -235,16 +235,16 @@ public class ItemActivity extends Activity {
 		final int index = (info != null) ? info.position : this.mIndex;
 		switch (item.getItemId()) {
 		case R.id.itemrename:
-			this.RenameDialog(index);
+			this.renameDialog(index);
 			break;
 		case R.id.itemremove:
-			this.RemoveDialog(index);
+			this.mRemoveDialog(index);
 			break;
 		case R.id.itemreset:
-			this.ItemresetDialog(index);
+			this.itemResetDialog(index);
 			break;
 		case R.id.itemcolor:
-			this.ItemsetColor(index);
+			this.itemSetColor(index);
 			break;
 		default:
 			this.mIndex = index;
@@ -252,17 +252,7 @@ public class ItemActivity extends Activity {
 		return true;
 	}
 
-	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-	}
-
-	private void Info() {
+	private void info() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		builder.setTitle(R.string.app_name);
@@ -275,7 +265,7 @@ public class ItemActivity extends Activity {
 
 	}
 
-	public void InsertItem() {
+	public void insertItem() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		builder.setTitle(R.string.newelement);
@@ -289,13 +279,13 @@ public class ItemActivity extends Activity {
 					@Override
 					public void onClick(final DialogInterface dialog,
 							final int id) {
-						if (ItemActivity.this.mItemList.size() == 0) {
+						if (ItemActivity.this.mItemList.isEmpty()) {
 							Toast.makeText(ItemActivity.this,
 									R.string.listfirst, Toast.LENGTH_LONG)
 									.show();
 						} else if (!ItemActivity.this.isEmpty(input)) {
 							final String value = input.getText().toString();
-							ItemActivity.this.InsertItem(value);
+							ItemActivity.this.insertItem(value);
 						}
 					}
 				});
@@ -313,35 +303,37 @@ public class ItemActivity extends Activity {
 		dialog.show();
 	}
 
-	public void InsertItem(final String name) {
+	public void insertItem(final String name) {
 		try {
 			data.open();
-			data.createItem(this.ListID, name, 0, 0);
+			data.createItem(this.listID, name, 0, 0);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
 		}
-		this.RefreshData();
+		this.refreshData();
 	}
 
-	public void InsertItemList(final String ItemListName) {
+	public void insertItemList(final String itemListName) {
 		try {
 			data.open();
-			final ItemList il = data.createItemList(ItemListName);
-			this.ListID = il.getID();
+			final ItemList il = data.createItemList(itemListName);
+			this.listID = il.getID();
 			this.setTitle(il.getListName());
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG)
 					.show();
 		} finally {
 			data.close();
 		}
 		Toast.makeText(this, R.string.newlistcreated, Toast.LENGTH_LONG).show();
-		this.RefreshData();
+		this.refreshData();
 	}
 
-	public void InsertItemList() {
+	public void insertItemList() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		builder.setTitle(R.string.newlist);
@@ -357,7 +349,7 @@ public class ItemActivity extends Activity {
 							final int id) {
 						if (!ItemActivity.this.isEmpty(input)) {
 							final String value = input.getText().toString();
-							ItemActivity.this.InsertItemList(value);
+							ItemActivity.this.insertItemList(value);
 						} else {
 							Toast.makeText(ItemActivity.this,
 									R.string.entername, Toast.LENGTH_LONG)
@@ -379,11 +371,12 @@ public class ItemActivity extends Activity {
 		dialog.show();
 	}
 
-	public ArrayList<Item> getAllItems(final int ListID) {
+	public List<Item> getAllItems(final int listID) {
 		try {
 			data.open();
-			this.list = data.getAllItems(ListID);
+			this.list = data.getAllItems(listID);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -393,11 +386,12 @@ public class ItemActivity extends Activity {
 		return this.list;
 	}
 
-	public ArrayList<ItemList> getAllItemLists() {
+	public List<ItemList> getAllItemLists() {
 		try {
 			data.open();
 			this.mItemList = data.getAllItemLists();
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -407,43 +401,45 @@ public class ItemActivity extends Activity {
 		return this.mItemList;
 	}
 
-	private boolean isEmpty(final EditText Text) {
-		return Text.getText().toString().trim().length() == 0;
+	private boolean isEmpty(final EditText text) {
+		return text.getText().toString().trim().length() == 0;
 	}
 
-	private void RefreshData() {
-		this.list = this.getAllItems(this.ListID);
+	private void refreshData() {
+		this.list = this.getAllItems(this.listID);
 		this.itemview.setAdapter(new ItemAdapter(this, this.list));
 
 		this.mItemList = this.getAllItemLists();
 		this.mDrawerList.setAdapter(new ItemListAdapter(this, this.mItemList));
 	}
 
-	private void PlusTick(final int ID) {
+	private void plusTick(final int iD) {
 		try {
 			data.open();
-			data.TickPlus(ID, this.ListID);
+			data.tickPlus(iD, this.listID);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
 		}
-		this.RefreshData();
+		this.refreshData();
 	}
 
-	private void MinusTick(final int ID) {
+	private void minusTick(final int iD) {
 		try {
 			data.open();
-			data.TickMinus(ID, this.ListID);
+			data.tickMinus(iD, this.listID);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
 		}
-		this.RefreshData();
+		this.refreshData();
 	}
 
-	private void RenameDialog(final int index) {
+	private void renameDialog(final int index) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		final Item item = this.list.get(index);
@@ -461,7 +457,7 @@ public class ItemActivity extends Activity {
 							final int id) {
 						if (!ItemActivity.this.isEmpty(input)) {
 							final String value = input.getText().toString();
-							ItemActivity.this.RenameItem(item, value);
+							ItemActivity.this.renameItem(item, value);
 						}
 					}
 				});
@@ -480,7 +476,7 @@ public class ItemActivity extends Activity {
 
 	}
 
-	private void RemoveDialog(final int pos) {
+	private void mRemoveDialog(final int pos) {
 		final int index = pos;
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -493,16 +489,17 @@ public class ItemActivity extends Activity {
 							final int which) {
 						try {
 							data.open();
-							data.RemoveItem(ItemActivity.this.list.get(index)
+							data.removeItem(ItemActivity.this.list.get(index)
 									.getID());
 						} catch (final Exception ex) {
+							Log.v(TAG, ex.toString());
 							Toast.makeText(ItemActivity.this.getBaseContext(),
 									ex.toString(), Toast.LENGTH_LONG).show();
 						} finally {
 							data.close();
 						}
 						ItemActivity.this.list.remove(index);
-						ItemActivity.this.RefreshData();
+						ItemActivity.this.refreshData();
 						Toast.makeText(ItemActivity.this,
 								R.string.entryremoved, Toast.LENGTH_LONG)
 								.show();
@@ -521,19 +518,20 @@ public class ItemActivity extends Activity {
 
 	}
 
-	private void RenameItem(final Item item, final String name) {
+	private void renameItem(final Item item, final String name) {
 		try {
 			data.open();
-			data.RenameItem(item, name);
+			data.renameItem(item, name);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
 		}
-		this.RefreshData();
+		this.refreshData();
 	}
 
-	private void RenameList(final int ListID) {
+	private void renameList(final int listID) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		builder.setTitle(R.string.editlist);
@@ -549,7 +547,7 @@ public class ItemActivity extends Activity {
 							final int id) {
 						if (!ItemActivity.this.isEmpty(input)) {
 							final String value = input.getText().toString();
-							ItemActivity.this.RenameItemList(ListID, value);
+							ItemActivity.this.renameItemList(listID, value);
 						}
 					}
 				});
@@ -568,20 +566,21 @@ public class ItemActivity extends Activity {
 
 	}
 
-	private void RenameItemList(final int ListID, final String name) {
+	private void renameItemList(final int listID, final String name) {
 		try {
 			data.open();
-			data.RenameList(ListID, name);
+			data.renameList(listID, name);
 			this.setTitle(name);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
 		}
-		this.RefreshData();
+		this.refreshData();
 	}
 
-	private void RemoveList(final int ListID) {
+	private void removeList(final int listID) {
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.removeList);
@@ -593,15 +592,16 @@ public class ItemActivity extends Activity {
 							final int which) {
 						try {
 							data.open();
-							data.RemoveItemList(ListID);
+							data.removeItemList(listID);
 						} catch (final Exception ex) {
+							Log.v(TAG, ex.toString());
 							Toast.makeText(ItemActivity.this, ex.toString(),
 									Toast.LENGTH_LONG).show();
 						} finally {
 							data.close();
 						}
 						ItemActivity.this.setTitle(R.string.app_name);
-						ItemActivity.this.RefreshData();
+						ItemActivity.this.refreshData();
 						Toast.makeText(ItemActivity.this,
 								R.string.entryremoved, Toast.LENGTH_LONG)
 								.show();
@@ -620,7 +620,7 @@ public class ItemActivity extends Activity {
 
 	}
 
-	private void ItemresetDialog(final int pos) {
+	private void itemResetDialog(final int pos) {
 		final int index = pos;
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -633,15 +633,16 @@ public class ItemActivity extends Activity {
 							final int which) {
 						try {
 							data.open();
-							data.ResetItem(ItemActivity.this.list.get(index)
+							data.resetItem(ItemActivity.this.list.get(index)
 									.getID());
 						} catch (final Exception ex) {
+							Log.v(TAG, ex.toString());
 							Toast.makeText(ItemActivity.this.getBaseContext(),
 									ex.toString(), Toast.LENGTH_LONG).show();
 						} finally {
 							data.close();
 						}
-						ItemActivity.this.RefreshData();
+						ItemActivity.this.refreshData();
 					}
 				});
 		builder.setNegativeButton(R.string.no,
@@ -657,12 +658,13 @@ public class ItemActivity extends Activity {
 
 	}
 
-	private double getTicksperDay(final int ListID, final int ItemID) {
+	private double getTicksperDay(final int listID, final int itemID) {
 		double hpd = 0;
 		try {
 			data.open();
-			hpd = data.getTicksperDay(ListID, ItemID);
+			hpd = data.getTicksperDay(listID, itemID);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG)
 					.show();
 		} finally {
@@ -671,7 +673,7 @@ public class ItemActivity extends Activity {
 		return hpd;
 	}
 
-	private void ItemsetColor(final int index) {
+	private void itemSetColor(final int index) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		final Item item = this.list.get(index);
@@ -693,20 +695,21 @@ public class ItemActivity extends Activity {
 			data.open();
 			data.setColor(item, color);
 		} catch (final Exception ex) {
+			Log.v(TAG, ex.toString());
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
 		}
-		this.RefreshData();
+		this.refreshData();
 
 	}
 
 	private class ItemAdapter extends ArrayAdapter<Item> {
 
 		private final Context context;
-		private final ArrayList<Item> list;
+		private final List<Item> list;
 
-		public ItemAdapter(final Context context, final ArrayList<Item> list) {
+		public ItemAdapter(final Context context, final List<Item> list) {
 			super(context, 0, list);
 			this.context = context;
 			this.list = list;
@@ -732,7 +735,7 @@ public class ItemActivity extends Activity {
 			plus.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(final View v) {
-					ItemActivity.this.PlusTick(ItemAdapter.this.list.get(
+					ItemActivity.this.plusTick(ItemAdapter.this.list.get(
 							position).getID());
 				}
 			});
@@ -742,7 +745,7 @@ public class ItemActivity extends Activity {
 			minus.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(final View v) {
-					ItemActivity.this.MinusTick(ItemAdapter.this.list.get(
+					ItemActivity.this.minusTick(ItemAdapter.this.list.get(
 							position).getID());
 				}
 			});
@@ -750,13 +753,13 @@ public class ItemActivity extends Activity {
 			final Item i = this.list.get(position);
 
 			if (i != null) {
-				final TextView Name = (TextView) convertView
+				final TextView name = (TextView) convertView
 						.findViewById(R.id.ItemName);
-				Name.setText(i.getItemName());
+				name.setText(i.getItemName());
 
-				final TextView Ticks = (TextView) convertView
+				final TextView ticks = (TextView) convertView
 						.findViewById(R.id.ItemTicks);
-				Ticks.setText(String.valueOf(i.getTicks()));
+				ticks.setText(String.valueOf(i.getTicks()));
 
 				if (ItemActivity.this.showtpd) {
 					final TextView tpd = (TextView) convertView
@@ -785,6 +788,8 @@ public class ItemActivity extends Activity {
 				case 4:
 					convertView.setBackgroundColor(Color.YELLOW);
 					break;
+				default:
+					convertView.setBackgroundColor(Color.WHITE);
 				}
 			}
 
@@ -796,10 +801,9 @@ public class ItemActivity extends Activity {
 	private class ItemListAdapter extends ArrayAdapter<ItemList> {
 
 		private final Context context;
-		private final ArrayList<ItemList> list;
+		private final List<ItemList> list;
 
-		public ItemListAdapter(final Context context,
-				final ArrayList<ItemList> list) {
+		public ItemListAdapter(final Context context, final List<ItemList> list) {
 			super(context, 0, list);
 			this.context = context;
 			this.list = list;
@@ -818,9 +822,9 @@ public class ItemActivity extends Activity {
 			final ItemList il = this.list.get(position);
 
 			if (il != null) {
-				final TextView Name = (TextView) convertView
+				final TextView name = (TextView) convertView
 						.findViewById(R.id.itemlistviewitemname);
-				Name.setText(il.getListName());
+				name.setText(il.getListName());
 			}
 
 			return convertView;
