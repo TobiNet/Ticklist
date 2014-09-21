@@ -14,10 +14,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSource {
+
 	private SQLiteDatabase database;
 	private final MySQLite sqlite;
 	private final String[] listcolumns = { "ID", "ListName" };
-	private final String[] itemcolumns = { "ID", "ListID", "ItemName", "Ticks" };
+	private final String[] itemcolumns = { "ID", "ListID", "ItemName", "Ticks",
+			"Color" };
 	private final String[] tickcolumns = { "ID", "ListID", "ItemID", "Date",
 			"Tick" };
 
@@ -52,6 +54,7 @@ public class DataSource {
 		i.setListID(cursor.getInt(1));
 		i.setItemName(cursor.getString(2));
 		i.setTicks(cursor.getInt(3));
+		i.setColor(cursor.getInt(4));
 
 		return i;
 	}
@@ -70,11 +73,12 @@ public class DataSource {
 	}
 
 	public Item createItem(final int listid, final String itemname,
-			final int ticks) {
+			final int ticks, final int color) {
 		final ContentValues values = new ContentValues();
 		values.put("ListID", listid);
 		values.put("ItemName", itemname);
 		values.put("Ticks", ticks);
+		values.put("Color", color);
 
 		final long insertID = this.database.insert("ITEMS", null, values);
 
@@ -219,11 +223,23 @@ public class DataSource {
 		this.createTick(ListID, ItemID, -1);
 	}
 
+	public void setColor(final Item item, final int color) {
+		final ContentValues values = new ContentValues();
+
+		values.put("ListID", item.getListID());
+		values.put("ItemName", item.getItemName());
+		values.put("Ticks", item.getTicks());
+		values.put("Color", color);
+
+		this.database.update("ITEMS", values, "ID=" + item.getID(), null);
+	}
+
 	public void RenameItem(final Item item, final String name) {
 		final ContentValues values = new ContentValues();
 		values.put("ListID", item.getListID());
 		values.put("ItemName", name);
 		values.put("Ticks", item.getTicks());
+		values.put("Color", item.getColor());
 
 		this.database.update("ITEMS", values, "ID=" + item.getID(), null);
 	}

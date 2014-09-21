@@ -8,6 +8,9 @@
 package org.tobinet.tick;
 
 public final class R {
+    public static final class array {
+        public static final int colors=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -16,27 +19,28 @@ public final class R {
         public static final int ic_drawer=0x7f020002;
     }
     public static final class id {
-        public static final int ItemName=0x7f070008;
-        public static final int ItemTicks=0x7f070007;
-        public static final int Items=0x7f070001;
-        public static final int Plus=0x7f070005;
-        public static final int RelativeLayout1=0x7f070004;
-        public static final int addItemList=0x7f07000f;
-        public static final int addList=0x7f070010;
-        public static final int drawer_layout=0x7f070000;
-        public static final int info=0x7f070014;
-        public static final int itemlistviewitemname=0x7f070009;
-        public static final int itemremove=0x7f07000d;
-        public static final int itemrename=0x7f07000c;
-        public static final int itemreset=0x7f07000e;
-        public static final int left_drawer=0x7f070002;
-        public static final int minus=0x7f070006;
-        public static final int removeList=0x7f070012;
-        public static final int renameList=0x7f070011;
-        public static final int scrollView=0x7f070003;
-        public static final int tickspd=0x7f07000a;
-        public static final int toggletpd=0x7f070013;
-        public static final int tpd=0x7f07000b;
+        public static final int ItemName=0x7f080008;
+        public static final int ItemTicks=0x7f080007;
+        public static final int Items=0x7f080001;
+        public static final int Plus=0x7f080005;
+        public static final int RelativeLayout1=0x7f080004;
+        public static final int addItemList=0x7f080010;
+        public static final int addList=0x7f080011;
+        public static final int drawer_layout=0x7f080000;
+        public static final int info=0x7f080015;
+        public static final int itemcolor=0x7f08000f;
+        public static final int itemlistviewitemname=0x7f080009;
+        public static final int itemremove=0x7f08000d;
+        public static final int itemrename=0x7f08000c;
+        public static final int itemreset=0x7f08000e;
+        public static final int left_drawer=0x7f080002;
+        public static final int minus=0x7f080006;
+        public static final int removeList=0x7f080013;
+        public static final int renameList=0x7f080012;
+        public static final int scrollView=0x7f080003;
+        public static final int tickspd=0x7f08000a;
+        public static final int toggletpd=0x7f080014;
+        public static final int tpd=0x7f08000b;
     }
     public static final class layout {
         public static final int activity_drawer=0x7f030000;
@@ -46,8 +50,8 @@ public final class R {
         public static final int items=0x7f030004;
     }
     public static final class menu {
-        public static final int itemmenu=0x7f060000;
-        public static final int menu=0x7f060001;
+        public static final int itemmenu=0x7f070000;
+        public static final int menu=0x7f070001;
     }
     public static final class string {
         public static final int ItemName=0x7f04000a;
@@ -62,6 +66,7 @@ public final class R {
         public static final int areyousure=0x7f04001f;
         public static final int backagain=0x7f040001;
         public static final int cancel=0x7f040016;
+        public static final int changecolor=0x7f040028;
         public static final int create=0x7f040014;
         public static final int drawer_close=0x7f04000f;
         public static final int drawer_open=0x7f04000e;
@@ -113,10 +118,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f060001;
     }
 }

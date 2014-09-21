@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -242,6 +243,9 @@ public class ItemActivity extends Activity {
 		case R.id.itemreset:
 			this.ItemresetDialog(index);
 			break;
+		case R.id.itemcolor:
+			this.ItemsetColor(index);
+			break;
 		default:
 			this.mIndex = index;
 		}
@@ -312,7 +316,7 @@ public class ItemActivity extends Activity {
 	public void InsertItem(final String name) {
 		try {
 			data.open();
-			data.createItem(this.ListID, name, 0);
+			data.createItem(this.ListID, name, 0, 0);
 		} catch (final Exception ex) {
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
@@ -667,6 +671,36 @@ public class ItemActivity extends Activity {
 		return hpd;
 	}
 
+	private void ItemsetColor(final int index) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		final Item item = this.list.get(index);
+
+		builder.setTitle(R.string.changecolor);
+
+		builder.setItems(R.array.colors, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int color) {
+				ItemActivity.this.setColor(item, color);
+			}
+		});
+
+		builder.create().show();
+	}
+
+	public void setColor(final Item item, final int color) {
+		try {
+			data.open();
+			data.setColor(item, color);
+		} catch (final Exception ex) {
+			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+		} finally {
+			data.close();
+		}
+		this.RefreshData();
+
+	}
+
 	private class ItemAdapter extends ArrayAdapter<Item> {
 
 		private final Context context;
@@ -734,6 +768,23 @@ public class ItemActivity extends Activity {
 
 					tpd.setText(nf.format(ItemActivity.this.getTicksperDay(
 							i.getListID(), i.getID())));
+				}
+				switch (i.getColor()) {
+				case 0:
+					convertView.setBackgroundColor(Color.WHITE);
+					break;
+				case 1:
+					convertView.setBackgroundColor(Color.BLUE);
+					break;
+				case 2:
+					convertView.setBackgroundColor(Color.RED);
+					break;
+				case 3:
+					convertView.setBackgroundColor(Color.GREEN);
+					break;
+				case 4:
+					convertView.setBackgroundColor(Color.YELLOW);
+					break;
 				}
 			}
 

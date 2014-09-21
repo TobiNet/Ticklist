@@ -5,6 +5,7 @@ public class Item {
 	private int ItemListID;
 	private String itemname;
 	private int ticks;
+	private int color;
 
 	public int getID() {
 		return this.ID;
@@ -26,6 +27,10 @@ public class Item {
 		this.itemname = itemname;
 	}
 
+	public void setColor(final int color) {
+		this.color = color;
+	}
+
 	public String getItemName() {
 		return this.itemname;
 	}
@@ -36,5 +41,9 @@ public class Item {
 
 	public int getTicks() {
 		return this.ticks;
+	}
+
+	public int getColor() {
+		return this.color;
 	}
 }

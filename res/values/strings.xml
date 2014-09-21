@@ -41,5 +41,14 @@
     <string name="TicksPerDay">clicks per day:</string>
     <string name="showtpd">show clicks per day</string>
     <string name="emptytext">No list selected, please select one or create a new one!</string>
+    <string name="changecolor">Change Background Color</string>
+    
+    <string-array name="colors">
+        <item>White</item>
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Yellow</item>
+    </string-array>
 
 </resources>

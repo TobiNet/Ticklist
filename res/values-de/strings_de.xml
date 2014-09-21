@@ -41,4 +41,13 @@
     <string name="TicksPerDay">Klicks pro Tag:</string>
     <string name="showtpd">Klicks pro Tag anzeigen</string>
     <string name="emptytext">Keine Liste gewählt, bitte eine auswählen oder anlegen!</string>
+    <string name="changecolor">Hintergrundfarbe ändern</string>
+     
+    <string-array name="colors">
+        <item>White</item>
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Yellow</item>
+    </string-array>
 </resources>
