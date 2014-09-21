@@ -4,6 +4,8 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
+import org.tobinet.tick.R.color;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,7 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -774,28 +775,41 @@ public class ItemActivity extends Activity {
 				}
 				switch (i.getColor()) {
 				case 0:
-					convertView.setBackgroundColor(Color.WHITE);
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.White));
 					break;
 				case 1:
-					convertView.setBackgroundColor(Color.BLUE);
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Blue));
 					break;
 				case 2:
-					convertView.setBackgroundColor(Color.RED);
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Grey));
 					break;
 				case 3:
-					convertView.setBackgroundColor(Color.GREEN);
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.LimeGreen));
 					break;
 				case 4:
-					convertView.setBackgroundColor(Color.YELLOW);
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Orange));
+					break;
+				case 5:
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Red));
+					break;
+				case 6:
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Yellow));
 					break;
 				default:
-					convertView.setBackgroundColor(Color.WHITE);
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.White));
 				}
 			}
 
 			return convertView;
 		}
-
 	}
 
 	private class ItemListAdapter extends ArrayAdapter<ItemList> {

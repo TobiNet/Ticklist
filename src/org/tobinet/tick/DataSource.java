@@ -197,7 +197,7 @@ public class DataSource {
 				days = 1;
 			}
 
-			while (cursor.isAfterLast() == false) {
+			while (!cursor.isAfterLast()) {
 				ticks = ticks + cursor.getInt(4);
 				cursor.moveToNext();
 			}

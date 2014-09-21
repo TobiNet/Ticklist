@@ -46,8 +46,10 @@
     <string-array name="colors">
         <item>White</item>
         <item>Blue</item>
-        <item>Red</item>
+        <item>Grey</item>
         <item>Green</item>
+        <item>Orange</item>
+        <item>Red</item>
         <item>Yellow</item>
     </string-array>
 
