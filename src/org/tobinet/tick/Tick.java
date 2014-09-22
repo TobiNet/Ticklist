@@ -8,24 +8,24 @@ public class Tick {
 	private String date;
 	private int tick;
 
-	public void setID(final int ID) {
-		this.iD = ID;
+	public void setID(final int iD) {
+		this.iD = iD;
 	}
 
 	public int getID() {
 		return this.iD;
 	}
 
-	public void setListID(final int ListID) {
-		this.listID = ListID;
+	public void setListID(final int listID) {
+		this.listID = listID;
 	}
 
 	public int getListID() {
 		return this.listID;
 	}
 
-	public void setItemID(final int ItemID) {
-		this.itemID = ItemID;
+	public void setItemID(final int itemID) {
+		this.itemID = itemID;
 	}
 
 	public int getItemID() {

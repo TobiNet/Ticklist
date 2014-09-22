@@ -675,20 +675,89 @@ public class ItemActivity extends Activity {
 	}
 
 	private void itemSetColor(final int index) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final AlertDialog builder = new AlertDialog.Builder(this).create();
 
 		final Item item = this.list.get(index);
 
 		builder.setTitle(R.string.changecolor);
+		final View view = View.inflate(this, R.layout.colorchooser, null);
 
-		builder.setItems(R.array.colors, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int color) {
-				ItemActivity.this.setColor(item, color);
-			}
-		});
+		view.findViewById(R.id.color0).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 0);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color1).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 1);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color2).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 2);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color3).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 3);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color4).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 4);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color5).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 5);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color6).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 6);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color7).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 7);
+						builder.dismiss();
+					}
+				});
+		view.findViewById(R.id.color8).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(final View v) {
+						ItemActivity.this.setColor(item, 8);
+						builder.dismiss();
+					}
+				});
 
-		builder.create().show();
+		builder.setView(view);
+		// builder.setButton("Cancel", null);
+		builder.show();
 	}
 
 	public void setColor(final Item item, final int color) {
@@ -780,7 +849,7 @@ public class ItemActivity extends Activity {
 					break;
 				case 1:
 					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Blue));
+							.getResources().getColor(color.LightBlue));
 					break;
 				case 2:
 					convertView.setBackgroundColor(ItemActivity.this
@@ -801,6 +870,14 @@ public class ItemActivity extends Activity {
 				case 6:
 					convertView.setBackgroundColor(ItemActivity.this
 							.getResources().getColor(color.Yellow));
+					break;
+				case 7:
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Brown));
+					break;
+				case 8:
+					convertView.setBackgroundColor(ItemActivity.this
+							.getResources().getColor(color.Purple));
 					break;
 				default:
 					convertView.setBackgroundColor(ItemActivity.this

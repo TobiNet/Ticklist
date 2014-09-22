@@ -14,10 +14,12 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int Blue=0x7f040001;
+        public static final int Brown=0x7f040007;
         public static final int Grey=0x7f040002;
+        public static final int LightBlue=0x7f040001;
         public static final int LimeGreen=0x7f040003;
         public static final int Orange=0x7f040004;
+        public static final int Purple=0x7f040008;
         public static final int Red=0x7f040005;
         public static final int White=0x7f040000;
         public static final int Yellow=0x7f040006;
@@ -28,35 +30,49 @@ public final class R {
         public static final int ic_drawer=0x7f020002;
     }
     public static final class id {
-        public static final int ItemName=0x7f090008;
-        public static final int ItemTicks=0x7f090007;
+        public static final int ItemName=0x7f090015;
+        public static final int ItemTicks=0x7f090014;
         public static final int Items=0x7f090001;
-        public static final int Plus=0x7f090005;
-        public static final int RelativeLayout1=0x7f090004;
-        public static final int addItemList=0x7f090010;
-        public static final int addList=0x7f090011;
+        public static final int LinearLayout1=0x7f090004;
+        public static final int LinearLayout2=0x7f090008;
+        public static final int LinearLayout3=0x7f09000c;
+        public static final int Plus=0x7f090012;
+        public static final int RelativeLayout1=0x7f090011;
+        public static final int addItemList=0x7f09001d;
+        public static final int addList=0x7f09001e;
+        public static final int color0=0x7f090005;
+        public static final int color1=0x7f090009;
+        public static final int color2=0x7f09000d;
+        public static final int color3=0x7f090006;
+        public static final int color4=0x7f09000a;
+        public static final int color5=0x7f09000e;
+        public static final int color6=0x7f090007;
+        public static final int color7=0x7f09000b;
+        public static final int color8=0x7f09000f;
+        public static final int colorchooser=0x7f090003;
         public static final int drawer_layout=0x7f090000;
-        public static final int info=0x7f090015;
-        public static final int itemcolor=0x7f09000f;
-        public static final int itemlistviewitemname=0x7f090009;
-        public static final int itemremove=0x7f09000d;
-        public static final int itemrename=0x7f09000c;
-        public static final int itemreset=0x7f09000e;
+        public static final int info=0x7f090022;
+        public static final int itemcolor=0x7f09001c;
+        public static final int itemlistviewitemname=0x7f090016;
+        public static final int itemremove=0x7f09001a;
+        public static final int itemrename=0x7f090019;
+        public static final int itemreset=0x7f09001b;
         public static final int left_drawer=0x7f090002;
-        public static final int minus=0x7f090006;
-        public static final int removeList=0x7f090013;
-        public static final int renameList=0x7f090012;
-        public static final int scrollView=0x7f090003;
-        public static final int tickspd=0x7f09000a;
-        public static final int toggletpd=0x7f090014;
-        public static final int tpd=0x7f09000b;
+        public static final int minus=0x7f090013;
+        public static final int removeList=0x7f090020;
+        public static final int renameList=0x7f09001f;
+        public static final int scrollView=0x7f090010;
+        public static final int tickspd=0x7f090017;
+        public static final int toggletpd=0x7f090021;
+        public static final int tpd=0x7f090018;
     }
     public static final class layout {
         public static final int activity_drawer=0x7f030000;
-        public static final int info=0x7f030001;
-        public static final int item=0x7f030002;
-        public static final int itemlistviewitem=0x7f030003;
-        public static final int items=0x7f030004;
+        public static final int colorchooser=0x7f030001;
+        public static final int info=0x7f030002;
+        public static final int item=0x7f030003;
+        public static final int itemlistviewitem=0x7f030004;
+        public static final int items=0x7f030005;
     }
     public static final class menu {
         public static final int itemmenu=0x7f080000;

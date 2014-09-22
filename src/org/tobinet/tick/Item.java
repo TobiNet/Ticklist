@@ -11,16 +11,16 @@ public class Item {
 		return this.iD;
 	}
 
-	public void setID(final int ID) {
-		this.iD = ID;
+	public void setID(final int iD) {
+		this.iD = iD;
 	}
 
 	public int getListID() {
 		return this.itemListID;
 	}
 
-	public void setListID(final int ItemListID) {
-		this.itemListID = ItemListID;
+	public void setListID(final int itemListID) {
+		this.itemListID = itemListID;
 	}
 
 	public void setItemName(final String itemname) {

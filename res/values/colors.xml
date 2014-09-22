@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="White">#FFFFFF</color>
-    <color name="Blue">#1C86EE</color>
+    <color name="LightBlue">#1C86EE</color>
     <color name="Grey">#ABABAB</color>
     <color name="LimeGreen">#32CD32</color>
-    <color name="Orange">#EE9A00</color>
+    <color name="Orange">#FFA500</color>
     <color name="Red">#EE2C2C</color>
     <color name="Yellow">#EEEE00</color>
+    <color name="Brown">#8B4513</color>
+    <color name="Purple">#B452CD</color>
 </resources>

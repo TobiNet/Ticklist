@@ -8,8 +8,8 @@ public class ItemList {
 		return this.iD;
 	}
 
-	public void setID(final int ID) {
-		this.iD = ID;
+	public void setID(final int iD) {
+		this.iD = iD;
 	}
 
 	public void setListName(final String itemlistname) {

@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" 
-        android:divider="@null" />
+        android:dividerHeight="1dp"
+        android:divider="#D3D3D3" />
 
     
     <ListView android:id="@+id/left_drawer"
