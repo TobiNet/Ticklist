@@ -14,13 +14,13 @@
 				android:orientation="vertical"
 				android:paddingRight="10dp"
 				android:paddingLeft="0dp" >
-			<TextView
+			<Button
+			    android:id="@+id/rateApp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:padding="3dp"
-				android:textSize="12sp"
-				android:gravity="left"
-				android:text="@string/about_changelog" />
+				android:textSize="20sp"
+				android:text="@string/rateapp"/>
 				
 			<View
 				android:layout_width="fill_parent"

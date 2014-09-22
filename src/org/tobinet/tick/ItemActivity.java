@@ -9,10 +9,14 @@ import org.tobinet.tick.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -256,14 +260,44 @@ public class ItemActivity extends Activity {
 	private void info() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-		builder.setTitle(R.string.app_name);
+		try {
+			builder.setTitle(this.getResources().getString(R.string.app_name)
+					+ " - "
+					+ this.getPackageManager().getPackageInfo(
+							this.getPackageName(), 0).versionName.toString());
+		} catch (final NameNotFoundException e) {
+			Log.v(TAG, e.toString());
+			builder.setTitle(R.string.app_name);
+		}
 
-		builder.setView(View.inflate(this, R.layout.info, null));
+		final View view = View.inflate(this, R.layout.info, null);
+		builder.setView(view);
 		builder.setPositiveButton("OK", null);
+
+		view.findViewById(R.id.rateApp).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(final View v) {
+						final Uri uri = Uri.parse("market://details?id="
+								+ ItemActivity.this.getPackageName());
+						final Intent goToMarket = new Intent(
+								Intent.ACTION_VIEW, uri);
+						try {
+							ItemActivity.this.startActivity(goToMarket);
+						} catch (final ActivityNotFoundException e) {
+							ItemActivity.this.startActivity(new Intent(
+									Intent.ACTION_VIEW,
+									Uri.parse("http://play.google.com/store/apps/details?id="
+											+ ItemActivity.this
+													.getPackageName())));
+						}
+
+					}
+				});
 
 		final Dialog info = builder.create();
 		info.show();
-
 	}
 
 	public void insertItem() {
@@ -679,7 +713,7 @@ public class ItemActivity extends Activity {
 
 		final Item item = this.list.get(index);
 
-		builder.setTitle(R.string.changecolor);
+		builder.setTitle(R.string.choosecolor);
 		final View view = View.inflate(this, R.layout.colorchooser, null);
 
 		view.findViewById(R.id.color0).setOnClickListener(
@@ -756,7 +790,6 @@ public class ItemActivity extends Activity {
 				});
 
 		builder.setView(view);
-		// builder.setButton("Cancel", null);
 		builder.show();
 	}
 

@@ -19,7 +19,6 @@
     <string name="drawer_close">Close</string>
     <string name="info">Info</string>
     <string name="about_msg">-- TickList -- \n\n\u00A9 2014 created by TobiNet \n\n view the source code at \nhttps://github.com/TobiNet/Ticklist</string>
-    <string name="about_changelog">Release Notes \n v1.2.1\n - Bugfix for big lists\n - minor translation fixes \n v1.2\n - clicks per day as option added\n - reset clicks added \n v1.1.1\n - Bugfix, after creating new list view changes to it\n v1.1\n- English translation added\n- Infobox added\nv1.0\n- PlayStore Release</string>
     <string name="newelement">Add new element</string>
     <string name="create">Add</string>
     <string name="listfirst">Please add a list first</string>
@@ -42,15 +41,7 @@
     <string name="showtpd">show clicks per day</string>
     <string name="emptytext">No list selected, please select one or create a new one!</string>
     <string name="changecolor">Change Background Color</string>
+    <string name="choosecolor">Choose a Color</string>
+    <string name="rateapp">Rate this App!</string>
     
-    <string-array name="colors">
-        <item>White</item>
-        <item>Blue</item>
-        <item>Grey</item>
-        <item>Green</item>
-        <item>Orange</item>
-        <item>Red</item>
-        <item>Yellow</item>
-    </string-array>
-
 </resources>
