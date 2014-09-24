@@ -34,9 +34,9 @@ public class MySQLite extends SQLiteOpenHelper {
 	// @formatter:on
 
 	private static final String EXAMPLE_VALUES_1 = "insert into ITEMLIST (ID, ListName) values (1, 'TickList');";
-	private static final String EXAMPLE_VALUES_2 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (1, 1, 'Element 1', 42, 1);";
-	private static final String EXAMPLE_VALUES_3 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (2, 1, 'Element 2', 1337, 2);";
-	private static final String EXAMPLE_VALUES_4 = "insert into ITEMS (ID, ListID, ItemName, Ticks) values (3, 1, 'Element 3', 13, 3);";
+	private static final String EXAMPLE_VALUES_2 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (1, 1, 'Element 1', 42, 1);";
+	private static final String EXAMPLE_VALUES_3 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (2, 1, 'Element 2', 1337, 2);";
+	private static final String EXAMPLE_VALUES_4 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (3, 1, 'Element 3', 13, 3);";
 
 	private MySQLite(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
