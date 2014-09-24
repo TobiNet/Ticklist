@@ -4,7 +4,6 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
-import org.tobinet.tick.R.color;
 import org.tobinet.tick.ColorChooser.AmbilWarnaDialog;
 import org.tobinet.tick.ColorChooser.AmbilWarnaDialog.OnAmbilWarnaListener;
 
@@ -251,25 +250,7 @@ public class ItemActivity extends Activity {
 			this.itemResetDialog(index);
 			break;
 		case R.id.itemcolor:
-
-			final AmbilWarnaDialog dia = new AmbilWarnaDialog(this, 0,
-					new OnAmbilWarnaListener() {
-
-						@Override
-						public void onOk(final AmbilWarnaDialog dialog,
-								final int color) {
-							// TODO Auto-generated method stub
-							Log.i(TAG, Integer.toString(color));
-						}
-
-						@Override
-						public void onCancel(final AmbilWarnaDialog dialog) {
-							// TODO Auto-generated method stub
-
-						}
-					});
-			dia.show();
-			// this.itemSetColor(index);
+			this.itemSetColor(index, this.list.get(index).getColor());
 			break;
 		default:
 			this.mIndex = index;
@@ -728,89 +709,25 @@ public class ItemActivity extends Activity {
 		return hpd;
 	}
 
-	private void itemSetColor(final int index) {
-		final AlertDialog builder = new AlertDialog.Builder(this).create();
+	private void itemSetColor(final int index, final int color) {
 
-		final Item item = this.list.get(index);
+		final AmbilWarnaDialog dia = new AmbilWarnaDialog(this, color,
+				new OnAmbilWarnaListener() {
 
-		builder.setTitle(R.string.choosecolor);
-		final View view = View.inflate(this, R.layout.colorchooser, null);
+					@Override
+					public void onOk(final AmbilWarnaDialog dialog,
+							final int color) {
 
-		view.findViewById(R.id.color0).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 0);
-						builder.dismiss();
+						ItemActivity.this.setColor(
+								ItemActivity.this.list.get(index), color);
 					}
-				});
-		view.findViewById(R.id.color1).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 1);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color2).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 2);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color3).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 3);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color4).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 4);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color5).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 5);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color6).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 6);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color7).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 7);
-						builder.dismiss();
-					}
-				});
-		view.findViewById(R.id.color8).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(final View v) {
-						ItemActivity.this.setColor(item, 8);
-						builder.dismiss();
-					}
-				});
 
-		builder.setView(view);
-		builder.show();
+					@Override
+					public void onCancel(final AmbilWarnaDialog dialog) {
+
+					}
+				});
+		dia.show();
 	}
 
 	public void setColor(final Item item, final int color) {
@@ -895,47 +812,8 @@ public class ItemActivity extends Activity {
 					tpd.setText(nf.format(ItemActivity.this.getTicksperDay(
 							i.getListID(), i.getID())));
 				}
-				switch (i.getColor()) {
-				case 0:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.White));
-					break;
-				case 1:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.LightBlue));
-					break;
-				case 2:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Grey));
-					break;
-				case 3:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.LimeGreen));
-					break;
-				case 4:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Orange));
-					break;
-				case 5:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Red));
-					break;
-				case 6:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Yellow));
-					break;
-				case 7:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Brown));
-					break;
-				case 8:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.Purple));
-					break;
-				default:
-					convertView.setBackgroundColor(ItemActivity.this
-							.getResources().getColor(color.White));
-				}
+
+				convertView.setBackgroundColor(i.getColor());
 			}
 
 			return convertView;
