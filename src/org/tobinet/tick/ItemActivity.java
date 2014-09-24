@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.tobinet.tick.R.color;
+import org.tobinet.tick.ColorChooser.AmbilWarnaDialog;
+import org.tobinet.tick.ColorChooser.AmbilWarnaDialog.OnAmbilWarnaListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -249,7 +251,25 @@ public class ItemActivity extends Activity {
 			this.itemResetDialog(index);
 			break;
 		case R.id.itemcolor:
-			this.itemSetColor(index);
+
+			final AmbilWarnaDialog dia = new AmbilWarnaDialog(this, 0,
+					new OnAmbilWarnaListener() {
+
+						@Override
+						public void onOk(final AmbilWarnaDialog dialog,
+								final int color) {
+							// TODO Auto-generated method stub
+							Log.i(TAG, Integer.toString(color));
+						}
+
+						@Override
+						public void onCancel(final AmbilWarnaDialog dialog) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+			dia.show();
+			// this.itemSetColor(index);
 			break;
 		default:
 			this.mIndex = index;
