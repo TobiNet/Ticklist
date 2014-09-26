@@ -1,4 +1,4 @@
-package org.tobinet.tick.ColorChooser;
+package org.tobinet.tick.colorchooser;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -16,7 +16,7 @@ import android.view.View;
 public class AmbilWarnaKotak extends View {
 	Paint paint;
 	Shader luar;
-	final float[] color = { 1.f, 1.f, 1.f };
+	final static float[] color = { 1.f, 1.f, 1.f };
 
 	public AmbilWarnaKotak(final Context context) {
 		this(context, null);

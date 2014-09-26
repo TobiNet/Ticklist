@@ -4,8 +4,8 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
-import org.tobinet.tick.ColorChooser.AmbilWarnaDialog;
-import org.tobinet.tick.ColorChooser.AmbilWarnaDialog.OnAmbilWarnaListener;
+import org.tobinet.tick.colorchooser.AmbilWarnaDialog;
+import org.tobinet.tick.colorchooser.AmbilWarnaDialog.OnAmbilWarnaListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,4 +1,4 @@
-package org.tobinet.tick.ColorChooser;
+package org.tobinet.tick.colorchooser;
 
 import org.tobinet.tick.R;
 
@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -62,7 +63,7 @@ public class AmbilWarnaDialog {
 		this.viewSatVal.setHue(this.getHue());
 		this.viewOldColor.setBackgroundColor(color);
 		this.viewNewColor.setBackgroundColor(color);
-		this.viewHue.setOnTouchListener(new View.OnTouchListener() {
+		this.viewHue.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(final View v, final MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_MOVE
@@ -73,13 +74,7 @@ public class AmbilWarnaDialog {
 						y = 0.f;
 					}
 					if (y > AmbilWarnaDialog.this.viewHue.getMeasuredHeight()) {
-						y = AmbilWarnaDialog.this.viewHue.getMeasuredHeight() - 0.001f; // to
-																						// avoid
-																						// looping
-																						// from
-																						// end
-																						// to
-																						// start.
+						y = AmbilWarnaDialog.this.viewHue.getMeasuredHeight() - 0.001f;
 					}
 					float hue = 360.f - 360.f
 							/ AmbilWarnaDialog.this.viewHue.getMeasuredHeight()
@@ -197,11 +192,11 @@ public class AmbilWarnaDialog {
 		layoutParams.leftMargin = (int) (this.viewHue.getLeft()
 				- Math.floor(this.viewCursor.getMeasuredWidth() / 2) - this.viewContainer
 				.getPaddingLeft());
-		;
+
 		layoutParams.topMargin = (int) (this.viewHue.getTop() + y
 				- Math.floor(this.viewCursor.getMeasuredHeight() / 2) - this.viewContainer
 				.getPaddingTop());
-		;
+
 		this.viewCursor.setLayoutParams(layoutParams);
 	}
 
