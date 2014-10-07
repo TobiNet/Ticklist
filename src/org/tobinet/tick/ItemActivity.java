@@ -267,7 +267,7 @@ public class ItemActivity extends Activity {
 					+ this.getPackageManager().getPackageInfo(
 							this.getPackageName(), 0).versionName.toString());
 		} catch (final NameNotFoundException e) {
-			Log.v(TAG, e.toString());
+			Log.v(TAG, e.toString(), e);
 			builder.setTitle(R.string.app_name);
 		}
 
@@ -287,6 +287,7 @@ public class ItemActivity extends Activity {
 						try {
 							ItemActivity.this.startActivity(goToMarket);
 						} catch (final ActivityNotFoundException e) {
+							Log.v(TAG, e.getMessage(), e);
 							ItemActivity.this.startActivity(new Intent(
 									Intent.ACTION_VIEW,
 									Uri.parse("http://play.google.com/store/apps/details?id="
@@ -344,7 +345,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			data.createItem(this.listID, name, 0, 0);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -359,7 +360,7 @@ public class ItemActivity extends Activity {
 			this.listID = il.getID();
 			this.setTitle(il.getListName());
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG)
 					.show();
 		} finally {
@@ -412,7 +413,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			this.list = data.getAllItems(listID);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -427,7 +428,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			this.mItemList = data.getAllItemLists();
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -454,7 +455,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			data.tickPlus(iD, this.listID);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -467,7 +468,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			data.tickMinus(iD, this.listID);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -528,7 +529,7 @@ public class ItemActivity extends Activity {
 							data.removeItem(ItemActivity.this.list.get(index)
 									.getID());
 						} catch (final Exception ex) {
-							Log.v(TAG, ex.toString());
+							Log.v(TAG, ex.toString(), ex);
 							Toast.makeText(ItemActivity.this.getBaseContext(),
 									ex.toString(), Toast.LENGTH_LONG).show();
 						} finally {
@@ -559,7 +560,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			data.renameItem(item, name);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -608,7 +609,7 @@ public class ItemActivity extends Activity {
 			data.renameList(listID, name);
 			this.setTitle(name);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
@@ -630,7 +631,7 @@ public class ItemActivity extends Activity {
 							data.open();
 							data.removeItemList(listID);
 						} catch (final Exception ex) {
-							Log.v(TAG, ex.toString());
+							Log.v(TAG, ex.toString(), ex);
 							Toast.makeText(ItemActivity.this, ex.toString(),
 									Toast.LENGTH_LONG).show();
 						} finally {
@@ -672,7 +673,7 @@ public class ItemActivity extends Activity {
 							data.resetItem(ItemActivity.this.list.get(index)
 									.getID());
 						} catch (final Exception ex) {
-							Log.v(TAG, ex.toString());
+							Log.v(TAG, ex.toString(), ex);
 							Toast.makeText(ItemActivity.this.getBaseContext(),
 									ex.toString(), Toast.LENGTH_LONG).show();
 						} finally {
@@ -700,7 +701,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			hpd = data.getTicksperDay(listID, itemID);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(ItemActivity.this, ex.toString(), Toast.LENGTH_LONG)
 					.show();
 		} finally {
@@ -735,7 +736,7 @@ public class ItemActivity extends Activity {
 			data.open();
 			data.setColor(item, color);
 		} catch (final Exception ex) {
-			Log.v(TAG, ex.toString());
+			Log.v(TAG, ex.toString(), ex);
 			Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
 		} finally {
 			data.close();
