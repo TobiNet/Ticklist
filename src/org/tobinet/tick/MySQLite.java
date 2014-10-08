@@ -17,13 +17,20 @@ public class MySQLite extends SQLiteOpenHelper {
 			+ ")";
 
 	private static final String TABLE_CREATE_ITEMS = "create table ITEMS("
-			+ "ID integer primary key autoincrement, " + "ListID integer,"
-			+ "ItemName string," + "Ticks integer," + "Color integer" + ")";
+			+ "ID integer primary key autoincrement, "
+			+ "ListID integer,"
+			+ "ItemName string,"
+			+ "Ticks integer,"
+			+ "Color integer"
+			+ ")";
 
 	private static final String TABLE_CREATE_TICK = "create table if not exists TICKS("
 			+ "ID integer primary key autoincrement,"
 			+ "ListID integer,"
-			+ "ItemID integer," + "Date string," + "Tick integer" + ")";
+			+ "ItemID integer,"
+			+ "Date string,"
+			+ "Tick integer"
+			+ ")";
 	// @formatter:on
 
 	private static final String EXAMPLE_VALUES_1 = "insert into ITEMLIST (ID, ListName) values (1, 'TickList');";
