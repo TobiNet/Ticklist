@@ -17,26 +17,19 @@ public class MySQLite extends SQLiteOpenHelper {
 			+ ")";
 
 	private static final String TABLE_CREATE_ITEMS = "create table ITEMS("
-			+ "ID integer primary key autoincrement, "
-			+ "ListID integer,"
-			+ "ItemName string,"
-			+ "Ticks integer,"
-			+ "Color integer"
-			+ ")";
+			+ "ID integer primary key autoincrement, " + "ListID integer,"
+			+ "ItemName string," + "Ticks integer," + "Color integer" + ")";
 
 	private static final String TABLE_CREATE_TICK = "create table if not exists TICKS("
 			+ "ID integer primary key autoincrement,"
 			+ "ListID integer,"
-			+ "ItemID integer,"
-			+ "Date string,"
-			+ "Tick integer"
-			+ ")";
+			+ "ItemID integer," + "Date string," + "Tick integer" + ")";
 	// @formatter:on
 
 	private static final String EXAMPLE_VALUES_1 = "insert into ITEMLIST (ID, ListName) values (1, 'TickList');";
-	private static final String EXAMPLE_VALUES_2 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (1, 1, 'Element 1', 42, 1);";
-	private static final String EXAMPLE_VALUES_3 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (2, 1, 'Element 2', 1337, 2);";
-	private static final String EXAMPLE_VALUES_4 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (3, 1, 'Element 3', 13, 3);";
+	private static final String EXAMPLE_VALUES_2 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (1, 1, 'Element 1', 42, -1159088);";
+	private static final String EXAMPLE_VALUES_3 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (2, 1, 'Element 2', 1337, -12014863);";
+	private static final String EXAMPLE_VALUES_4 = "insert into ITEMS (ID, ListID, ItemName, Ticks, Color) values (3, 1, 'Element 3', 13, -6694589);";
 
 	private MySQLite(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
