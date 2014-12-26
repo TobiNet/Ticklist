@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight" >
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
     <TextView
         android:id="@+id/itemlistviewitemname"
@@ -13,6 +13,6 @@
         android:paddingLeft="5dp"
         android:text="@string/itemlistviewitem"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-    
+
+
 </RelativeLayout>

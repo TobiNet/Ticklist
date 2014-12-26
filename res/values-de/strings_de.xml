@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="app_name">StrichListe</string>
     <string name="backagain">Zum Beenden erneut zurück tippen</string>
     <string name="add">Hinzufügen</string>
