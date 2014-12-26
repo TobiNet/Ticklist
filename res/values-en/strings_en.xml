@@ -32,7 +32,7 @@
     <string name="editlist">Edit list</string>
     <string name="areyousure">Are you sure?</string>
     <string name="yes">Yes</string>
-    <string name="no">No</string>  
+    <string name="no">No</string>
     <string name="reset">Reset element</string>
     <string name="resetelement">Reset counter</string>
     <string name="PerDay">TicksPerDay</string>
@@ -42,5 +42,5 @@
     <string name="changecolor">Change Background Color</string>
     <string name="choosecolor">Choose a Color</string>
     <string name="rateapp">Rate this App!</string>
-    
+
 </resources>

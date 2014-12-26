@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/addItemList" android:title="@string/add" android:icon="@drawable/ic_action_new" android:showAsAction="always"></item>
-    <item android:id="@+id/addList" android:title="@string/addList" android:showAsAction="never"></item>
-    <item android:id="@+id/renameList" android:title="@string/renameList" android:showAsAction="never"></item>
-    <item android:id="@+id/removeList" android:title="@string/removeList" android:showAsAction="never"></item>
-    <item android:id="@+id/toggletpd" android:title="@string/showtpd" android:checkable="true"></item>
-    <item android:id="@+id/info" android:title="@string/info" android:showAsAction="never"></item>
-    
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/addItemList"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always"
+        android:title="@string/add"></item>
+    <item
+        android:id="@+id/addList"
+        android:showAsAction="never"
+        android:title="@string/addList"></item>
+    <item
+        android:id="@+id/renameList"
+        android:showAsAction="never"
+        android:title="@string/renameList"></item>
+    <item
+        android:id="@+id/removeList"
+        android:showAsAction="never"
+        android:title="@string/removeList"></item>
+    <item
+        android:id="@+id/toggletpd"
+        android:checkable="true"
+        android:title="@string/showtpd"></item>
+    <item
+        android:id="@+id/info"
+        android:showAsAction="never"
+        android:title="@string/info"></item>
+
+
 </menu>
