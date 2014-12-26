@@ -1,49 +1,49 @@
 package org.tobinet.tick;
 
 public class Item {
-	private int iD;
-	private int itemListID;
-	private String itemname;
-	private int ticks;
-	private int color;
+    private int iD;
+    private int itemListID;
+    private String itemname;
+    private int ticks;
+    private int color;
 
-	public int getID() {
-		return this.iD;
-	}
+    public int getID() {
+        return this.iD;
+    }
 
-	public void setID(final int iD) {
-		this.iD = iD;
-	}
+    public void setID(final int iD) {
+        this.iD = iD;
+    }
 
-	public int getListID() {
-		return this.itemListID;
-	}
+    public int getListID() {
+        return this.itemListID;
+    }
 
-	public void setListID(final int itemListID) {
-		this.itemListID = itemListID;
-	}
+    public void setListID(final int itemListID) {
+        this.itemListID = itemListID;
+    }
 
-	public void setItemName(final String itemname) {
-		this.itemname = itemname;
-	}
+    public String getItemName() {
+        return this.itemname;
+    }
 
-	public void setColor(final int color) {
-		this.color = color;
-	}
+    public void setItemName(final String itemname) {
+        this.itemname = itemname;
+    }
 
-	public String getItemName() {
-		return this.itemname;
-	}
+    public int getTicks() {
+        return this.ticks;
+    }
 
-	public void setTicks(final int ticks) {
-		this.ticks = ticks;
-	}
+    public void setTicks(final int ticks) {
+        this.ticks = ticks;
+    }
 
-	public int getTicks() {
-		return this.ticks;
-	}
+    public int getColor() {
+        return this.color;
+    }
 
-	public int getColor() {
-		return this.color;
-	}
+    public void setColor(final int color) {
+        this.color = color;
+    }
 }
